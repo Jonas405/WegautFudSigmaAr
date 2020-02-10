@@ -30,6 +30,57 @@
             {
               "client_id": "149019908303-q8gd64llpdnv87269neo2spve2j2jrkg.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "149019908303-te3k0257ir2lj3j5p2jvsjdnla4j6404.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "WegautApp.FUD-Snax"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149019908303:android:eb80f00bd052130d7cbfba",
+        "android_client_info": {
+          "package_name": "stickers.nick"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "149019908303-f40tea16jlqc05t5dlue9r66u77da9r6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "stickers.nick",
+            "certificate_hash": "f947aaf16169c9f6e8de51b6fde7971388c83722"
+          }
+        },
+        {
+          "client_id": "149019908303-q8gd64llpdnv87269neo2spve2j2jrkg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCK12ZE9Wj1W5jqEp79dv0PU1nn8Y9gHyQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "149019908303-q8gd64llpdnv87269neo2spve2j2jrkg.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "149019908303-te3k0257ir2lj3j5p2jvsjdnla4j6404.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "WegautApp.FUD-Snax"
+              }
             }
           ]
         }

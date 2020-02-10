@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.google.gms.google-services'
 
 android {
     //the compression of webp file during build causes problem with FileDescriptor in ContentProvider.
