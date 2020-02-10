@@ -1,0 +1,100 @@
+{
+  "android_play_store_link": "",
+  "ios_app_store_link": "",
+  "sticker_packs": [
+    {
+      "identifier": "1",
+      "name": "Bob Esponja y Sus Amigos!",
+      "publisher": "Jane Doe",
+      "tray_image_file": "SpongeBoblogo.webp",
+      "image_data_version":"1",
+      "avoid_cache":false,
+      "publisher_email":"",
+      "publisher_website": "",
+      "privacy_policy_website": "",
+      "license_agreement_website": "",
+      "stickers": [
+        {
+          "image_file": "arenita1.webp",
+          "emojis": ["☕","🙂"]
+        },
+        {
+          "image_file": "arenita2.webp",
+          "emojis": ["😄","😀"]
+        },
+        {
+          "image_file": "arenita3.webp",
+          "emojis": ["😄","😀"]
+        },
+        {
+          "image_file": "bobpatricio.webp",
+          "emojis": ["😆","😂"]
+        },
+        {
+          "image_file": "bobteam1.webp",
+          "emojis": ["😩","😰"]
+        },
+        {
+          "image_file": "bobteam2.webp",
+          "emojis": ["😩","😰"]
+        },
+        {
+          "image_file": "calamardo1.webp",
+          "emojis": ["😭","💧"]
+        },
+        {
+          "image_file": "calamardo2.webp",
+          "emojis": ["😍","♥"]
+        },
+        {
+          "image_file": "calamardo3.webp",
+          "emojis": ["💔","👎"]
+        },
+        {
+          "image_file": "cangrejo1.webp",
+          "emojis": ["😍","💑"]
+        },
+        {
+          "image_file": "esponja1.webp",
+          "emojis": ["😘","🍪"]
+        },
+        {
+          "image_file": "esponja2.webp",
+          "emojis": ["🤔","😐"]
+        },
+        {
+          "image_file": "esponja3.webp",
+          "emojis": ["😱","😵"]
+        },
+        {
+          "image_file": "esponja4.webp",
+          "emojis": ["😡","😠"]
+        },
+        {
+          "image_file": "esponja5.webp",
+          "emojis": ["😡","😠"]
+        },
+        {
+          "image_file": "gary.webp",
+          "emojis": ["❓","🤔"]
+        },
+        {
+          "image_file": "medusas.webp",
+          "emojis": ["🌈","😜"]
+        },
+        {
+          "image_file": "robot1.webp",
+          "emojis": ["💻","😩"]
+        },
+        {
+          "image_file": "teamboat1.webp",
+          "emojis": ["😡","😤"]
+        },
+        {
+          "image_file": "teamboat2.webp",
+          "emojis": ["😩","😨"]
+        }
+      ]
+    }
+  ]
+}

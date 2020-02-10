@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "149019908303",
+    "firebase_url": "https://wegautarsigma.firebaseio.com",
+    "project_id": "wegautarsigma",
+    "storage_bucket": "wegautarsigma.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149019908303:android:1cf56474f29a28d77cbfba",
+        "android_client_info": {
+          "package_name": "com.wegautarsigma"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "149019908303-q8gd64llpdnv87269neo2spve2j2jrkg.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCK12ZE9Wj1W5jqEp79dv0PU1nn8Y9gHyQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "149019908303-q8gd64llpdnv87269neo2spve2j2jrkg.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
