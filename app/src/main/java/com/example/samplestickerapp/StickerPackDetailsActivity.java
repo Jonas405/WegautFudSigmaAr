@@ -17,17 +17,48 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
+
+import com.example.samplestickerapp.ui.main.SectionsPagerAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
+
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
+import com.example.samplestickerapp.ui.main.SectionsPagerAdapter;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 
-public class StickerPackDetailsActivity extends AddStickerPackActivity {
 
+public class StickerPackDetailsActivity extends AddStickerPackActivity implements StickersFragment.OnFragmentInteractionListener, ColeccionFragment.OnFragmentInteractionListener{
+
+    private StorageReference Folder;
+    ImageButton profile_image;
+    private int ImageBack = 1;
     /**
      * Do not change below values of below 3 lines as this is also used by WhatsApp
      */
@@ -55,14 +86,34 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sticker_pack_details);
         boolean showUpButton = getIntent().getBooleanExtra(EXTRA_SHOW_UP_BUTTON, false);
         stickerPack = getIntent().getParcelableExtra(EXTRA_STICKER_PACK_DATA);
-        TextView packNameTextView = findViewById(R.id.pack_name);
+      /*  TextView packNameTextView = findViewById(R.id.pack_name);
         TextView packPublisherTextView = findViewById(R.id.author);
         ImageView packTrayIcon = findViewById(R.id.tray_image);
-        TextView packSizeTextView = findViewById(R.id.pack_size);
+        TextView packSizeTextView = findViewById(R.id.pack_size);*/
+        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+        ViewPager viewPager = findViewById(R.id.view_pager);
+        viewPager.setAdapter(sectionsPagerAdapter);
+        TabLayout tabs = findViewById(R.id.tabs);
+        tabs.setupWithViewPager(viewPager);
+        FloatingActionButton fab = findViewById(R.id.fab);
+
+        profile_image = findViewById(R.id.profile_image);
+
+        Folder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
 
         addButton = findViewById(R.id.add_to_whatsapp_button);
         alreadyAddedText = findViewById(R.id.already_added_text);
@@ -76,14 +127,53 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
             stickerPreviewAdapter = new StickerPreviewAdapter(getLayoutInflater(), R.drawable.sticker_error, getResources().getDimensionPixelSize(R.dimen.sticker_pack_details_image_size), getResources().getDimensionPixelSize(R.dimen.sticker_pack_details_image_padding), stickerPack);
             recyclerView.setAdapter(stickerPreviewAdapter);
         }
-        packNameTextView.setText(stickerPack.name);
+        /*packNameTextView.setText(stickerPack.name);
         packPublisherTextView.setText(stickerPack.publisher);
         packTrayIcon.setImageURI(StickerPackLoader.getStickerAssetUri(stickerPack.identifier, stickerPack.trayImageFile));
-        packSizeTextView.setText(Formatter.formatShortFileSize(this, stickerPack.getTotalSize()));
+        packSizeTextView.setText(Formatter.formatShortFileSize(this, stickerPack.getTotalSize()));*/
         addButton.setOnClickListener(v -> addStickerPackToWhatsApp(stickerPack.identifier, stickerPack.name));
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(showUpButton);
             getSupportActionBar().setTitle(showUpButton ? getResources().getString(R.string.title_activity_sticker_pack_details_multiple_pack) : getResources().getQuantityString(R.plurals.title_activity_sticker_packs_list, 1));
+        }
+    }
+
+    public void UploadData(View view) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/image");
+        startActivityForResult(intent, ImageBack);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == ImageBack){
+            if(resultCode == RESULT_OK){
+
+                Uri ImageData = data.getData();
+                StorageReference ImageName = Folder.child("image"+ImageData.getLastPathSegment());
+                ImageName.putFile(ImageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(StickerPackDetailsActivity.this, "Foto subida!", Toast.LENGTH_SHORT).show();
+                        ImageName.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                DatabaseReference imageStore = FirebaseDatabase.getInstance().getReference().child("image");
+                                HashMap<String,String> hashMap = new HashMap<>();
+                                hashMap.put("imageUrl", String.valueOf(uri));
+
+                                imageStore.setValue(hashMap);
+                                Picasso.get().load(uri).into(profile_image);
+
+                            }
+                        });
+                    }
+                });
+
+
+            }
         }
     }
 
@@ -177,6 +267,11 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
             addButton.setVisibility(View.VISIBLE);
             alreadyAddedText.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 
     static class WhiteListCheckAsyncTask extends AsyncTask<StickerPack, Void, Boolean> {
