@@ -12,52 +12,40 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.format.Formatter;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
-import com.example.samplestickerapp.ui.main.SectionsPagerAdapter;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
-import com.example.samplestickerapp.ui.main.SectionsPagerAdapter;
-import com.example.samplestickerapp.BottomFadingRecyclerView;
-import com.example.samplestickerapp.Coleccion;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 
 public class StickerPackDetailsActivity extends AddStickerPackActivity implements StickersFragment.OnFragmentInteractionListener, ColeccionFragment.OnFragmentInteractionListener{
-
+    FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
+    private DatabaseReference mDatabase;// ...
     private StorageReference Folder;
     ImageButton profile_image;
     Button coleccionBtn;
@@ -91,8 +79,7 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        Button ColeccionBtn;
-
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sticker_pack_details);
         boolean showUpButton = getIntent().getBooleanExtra(EXTRA_SHOW_UP_BUTTON, false);
@@ -108,7 +95,6 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         tabs.setupWithViewPager(viewPager);*/
 
         profile_image = findViewById(R.id.profile_image);
-        ColeccionBtn = findViewById(R.id.coleccionBtn);
 
         Folder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
 
@@ -138,7 +124,6 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
             getSupportActionBar().setTitle(showUpButton ? getResources().getString(R.string.title_activity_sticker_pack_details_multiple_pack) : getResources().getQuantityString(R.plurals.title_activity_sticker_packs_list, 1));
         }
 
-        ColeccionBtn.setOnClickListener(view -> startActivity(new Intent(StickerPackDetailsActivity.this, Coleccion.class)));
     }
 
     public void UploadData(View view) {
@@ -146,6 +131,14 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         intent.setType("image/image");
         startActivityForResult(intent, ImageBack);
     }
+
+    public void onDataChange(DataSnapshot dataSnapshot) {
+        // Get Post object and use the values to update the UI
+        Users users = dataSnapshot.getValue(Users.class);
+        Log.d("AAA", "USER ARE: " + users);
+        // ...
+    }
+
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -308,5 +301,8 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
                 stickerPackDetailsActivity.updateAddUI(isWhitelisted);
             }
         }
+    }
+
+    private class Users {
     }
 }

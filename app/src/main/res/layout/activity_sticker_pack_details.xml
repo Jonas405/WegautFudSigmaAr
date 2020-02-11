@@ -88,17 +88,6 @@
 
         </RelativeLayout>
 
-        <Button
-            android:id="@+id/coleccionBtn"
-            android:layout_width="match_parent"
-            android:layout_height="50sp"
-            android:text="Coleccion"
-            android:textColor="@color/colorWhite"
-            android:background="@color/colorAccent"
-            android:clickable="true"
-            android:onClick="GotoColeccion"
-            />
-
     </com.google.android.material.appbar.AppBarLayout>
 
         <!--<com.google.android.material.tabs.TabLayout
