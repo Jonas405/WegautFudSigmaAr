@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -28,7 +29,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.samplestickerapp.ui.main.SectionsPagerAdapter;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.storage.FirebaseStorage;
@@ -49,6 +49,8 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 import com.example.samplestickerapp.ui.main.SectionsPagerAdapter;
+import com.example.samplestickerapp.BottomFadingRecyclerView;
+import com.example.samplestickerapp.Coleccion;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -58,6 +60,7 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
 
     private StorageReference Folder;
     ImageButton profile_image;
+    Button coleccionBtn;
     private int ImageBack = 1;
     /**
      * Do not change below values of below 3 lines as this is also used by WhatsApp
@@ -84,8 +87,11 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
     private View divider;
     private WhiteListCheckAsyncTask whiteListCheckAsyncTask;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        Button ColeccionBtn;
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sticker_pack_details);
@@ -95,29 +101,22 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         TextView packPublisherTextView = findViewById(R.id.author);
         ImageView packTrayIcon = findViewById(R.id.tray_image);
         TextView packSizeTextView = findViewById(R.id.pack_size);*/
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
+      /*  SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
         ViewPager viewPager = findViewById(R.id.view_pager);
         viewPager.setAdapter(sectionsPagerAdapter);
         TabLayout tabs = findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);
-        FloatingActionButton fab = findViewById(R.id.fab);
+        tabs.setupWithViewPager(viewPager);*/
 
         profile_image = findViewById(R.id.profile_image);
+        ColeccionBtn = findViewById(R.id.coleccionBtn);
 
         Folder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
 
         addButton = findViewById(R.id.add_to_whatsapp_button);
         alreadyAddedText = findViewById(R.id.already_added_text);
         layoutManager = new GridLayoutManager(this, 1);
+
+
         recyclerView = findViewById(R.id.sticker_list);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(pageLayoutListener);
@@ -127,15 +126,19 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
             stickerPreviewAdapter = new StickerPreviewAdapter(getLayoutInflater(), R.drawable.sticker_error, getResources().getDimensionPixelSize(R.dimen.sticker_pack_details_image_size), getResources().getDimensionPixelSize(R.dimen.sticker_pack_details_image_padding), stickerPack);
             recyclerView.setAdapter(stickerPreviewAdapter);
         }
+
         /*packNameTextView.setText(stickerPack.name);
         packPublisherTextView.setText(stickerPack.publisher);
         packTrayIcon.setImageURI(StickerPackLoader.getStickerAssetUri(stickerPack.identifier, stickerPack.trayImageFile));
         packSizeTextView.setText(Formatter.formatShortFileSize(this, stickerPack.getTotalSize()));*/
         addButton.setOnClickListener(v -> addStickerPackToWhatsApp(stickerPack.identifier, stickerPack.name));
+
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(showUpButton);
             getSupportActionBar().setTitle(showUpButton ? getResources().getString(R.string.title_activity_sticker_pack_details_multiple_pack) : getResources().getQuantityString(R.plurals.title_activity_sticker_packs_list, 1));
         }
+
+        ColeccionBtn.setOnClickListener(view -> startActivity(new Intent(StickerPackDetailsActivity.this, Coleccion.class)));
     }
 
     public void UploadData(View view) {
@@ -178,6 +181,8 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
     }
 
 
+
+
     private void launchInfoActivity(String publisherWebsite, String publisherEmail, String privacyPolicyWebsite, String licenseAgreementWebsite, String trayIconUriString) {
         Intent intent = new Intent(StickerPackDetailsActivity.this, StickerPackInfoActivity.class);
         intent.putExtra(StickerPackDetailsActivity.EXTRA_STICKER_PACK_ID, stickerPack.identifier);
@@ -194,6 +199,11 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         getMenuInflater().inflate(R.menu.toolbar, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
+/*    public void GotoColeccion() {
+        ColeccionBtn.setOnClickListener(view -> startActivity(new Intent(StickerPackDetailsActivity.this, Coleccion.class)));
+
+    }*/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

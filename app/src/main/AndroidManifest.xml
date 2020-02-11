@@ -13,6 +13,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
+        <activity android:name=".Coleccion"></activity>
         <activity android:name=".Splash">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,19 +25,18 @@
             android:name=".ProfileActivity"
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme" />
-<!--
-        <activity android:name=".CustomArActivity" />
--->
+        <!--         <activity android:name=".CustomArActivity" /> -->
         <activity android:name=".LoginActivity" />
         <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity">
-        </activity>
-
+        <activity android:name=".MainActivity"></activity>
         <activity android:name=".EntryActivity">
-            <!--<intent-filter>
+
+            <!--
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
+            -->
         </activity>
         <activity android:name=".StickerPackListActivity" />
         <activity
@@ -64,4 +64,5 @@
             android:exported="true"
             android:readPermission="com.whatsapp.sticker.READ" />
     </application>
+
 </manifest>
