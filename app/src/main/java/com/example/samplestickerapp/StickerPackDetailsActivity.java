@@ -76,6 +76,12 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
     private WhiteListCheckAsyncTask whiteListCheckAsyncTask;
 
 
+    //init button Ar Activity
+    Button mActivityAr;
+    //Firebase Auth
+    FirebaseAuth firebaseAuth;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -84,6 +90,21 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         setContentView(R.layout.activity_sticker_pack_details);
         boolean showUpButton = getIntent().getBooleanExtra(EXTRA_SHOW_UP_BUTTON, false);
         stickerPack = getIntent().getParcelableExtra(EXTRA_STICKER_PACK_DATA);
+
+
+        //handle firebase auth init
+        firebaseAuth = FirebaseAuth.getInstance();
+
+        //button Ar
+        mActivityAr = findViewById(R.id.arActivityImage);
+        //Go to Ar Activity when is push
+        mActivityAr.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(StickerPackDetailsActivity.this, CustomArActivity.class));
+            }
+        });
+
       /*  TextView packNameTextView = findViewById(R.id.pack_name);
         TextView packPublisherTextView = findViewById(R.id.author);
         ImageView packTrayIcon = findViewById(R.id.tray_image);
