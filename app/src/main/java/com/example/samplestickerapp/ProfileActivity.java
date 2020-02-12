@@ -3,6 +3,8 @@ package com.example.samplestickerapp;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
@@ -15,6 +17,8 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -30,6 +34,9 @@ public class ProfileActivity extends AppCompatActivity implements StickersFragme
     ImageButton profile_image;
     private int ImageBack = 1;
 
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,6 +47,8 @@ public class ProfileActivity extends AppCompatActivity implements StickersFragme
         TabLayout tabs = findViewById(R.id.tabs);
         tabs.setupWithViewPager(viewPager);
         FloatingActionButton fab = findViewById(R.id.fab);
+
+
 
         profile_image = findViewById(R.id.profile_image);
 
@@ -97,4 +106,5 @@ public class ProfileActivity extends AppCompatActivity implements StickersFragme
             }
         }
     }
+
 }
