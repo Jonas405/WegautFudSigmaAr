@@ -25,9 +25,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.common.net.InternetDomainName;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -74,6 +77,8 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
     private StickerPack stickerPack;
     private View divider;
     private WhiteListCheckAsyncTask whiteListCheckAsyncTask;
+    private DatabaseReference databaseReference;
+    private String ProfileImage;
 
 
     @Override
@@ -103,6 +108,7 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         layoutManager = new GridLayoutManager(this, 1);
 
 
+
         recyclerView = findViewById(R.id.sticker_list);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(pageLayoutListener);
@@ -126,18 +132,13 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
 
     }
 
+
     public void UploadData(View view) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/image");
         startActivityForResult(intent, ImageBack);
     }
 
-    public void onDataChange(DataSnapshot dataSnapshot) {
-        // Get Post object and use the values to update the UI
-        Users users = dataSnapshot.getValue(Users.class);
-        Log.d("AAA", "USER ARE: " + users);
-        // ...
-    }
 
 
     @Override
@@ -303,6 +304,7 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         }
     }
 
-    private class Users {
+    private class User {
+        private String ProfileURL;
     }
 }
