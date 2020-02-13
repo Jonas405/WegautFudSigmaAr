@@ -28,7 +28,7 @@ import java.util.HashMap;
 public class RegisterActivity extends AppCompatActivity {
 
     //views
-    EditText mEmailEt, mPassworEt;
+    EditText mEmailEt, mPassworEt, nameEt;
     Button loginBtn;
     TextView mHaveAccountTv;
     //progressBar to display registering user
@@ -50,6 +50,7 @@ public class RegisterActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);*/
 
         //init
+        nameEt = findViewById(R.id.nameEt);
         mEmailEt = findViewById(R.id.emailEt);
         mPassworEt = findViewById(R.id.passwordEt);
         loginBtn = findViewById(R.id.loginBtn);
@@ -91,6 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
+                finish();
             }
         });
     }
@@ -111,10 +113,11 @@ public class RegisterActivity extends AppCompatActivity {
                             String uid = user.getUid();
 
                             HashMap<Object, String> hashMap = new HashMap<>();
+                            String name = nameEt.getText().toString().trim();
 
                             hashMap.put("email", email);
                             hashMap.put("uid", uid);
-                            hashMap.put("name", "");
+                            hashMap.put("name", name);
                             hashMap.put("image", "");
 
                             FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -125,9 +128,7 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                             Toast.makeText(RegisterActivity.this, "Registered...\n"+user.getEmail(), Toast.LENGTH_SHORT).show();
-/*
-                            startActivity(new Intent(RegisterActivity.this, ProfileActivity.class));
-*/
+                            startActivity(new Intent(RegisterActivity.this, EntryActivity.class));
                             finish();
 
                         } else {

@@ -1,12 +1,16 @@
 package com.example.samplestickerapp;
 
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,7 +29,7 @@ public class LoginActivity extends AppCompatActivity {
 
     //views
     EditText mEmailEt, mPasswordEt;
-    TextView notHaveAccntTv;
+    TextView notHaveAccntTv , RecoverAccount;
     Button mLoginBtn;
 
     //Declare an instance of FirebaseAuth
@@ -57,6 +61,16 @@ public class LoginActivity extends AppCompatActivity {
         mPasswordEt = findViewById(R.id.passwordEt);
         notHaveAccntTv = findViewById(R.id.nothave_accountTv);
         mLoginBtn = findViewById(R.id.loginBtn);
+        RecoverAccount = findViewById(R.id.RecoverAccount);
+
+
+
+        RecoverAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showRecoverPasswordDialog();
+            }
+        });
 
         //login button click
         mLoginBtn.setOnClickListener(new View.OnClickListener() {
@@ -82,12 +96,71 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
+                finish();
             }
         });
 
         //init
         pd = new ProgressDialog(this);
         pd.setMessage("Loggin In...");
+    }
+
+    private void showRecoverPasswordDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Recuperar Contrase;a");
+
+        LinearLayout linearLayout = new LinearLayout(this);
+
+        EditText emailEt = new EditText(this);
+        emailEt.setHint("Correo Electronico");
+        emailEt.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        emailEt.setMinEms(10);
+
+        linearLayout.addView(emailEt);
+        linearLayout.setPadding(10, 10, 10, 10);
+
+        builder.setView(linearLayout);
+
+        builder.setPositiveButton("Recuperar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String email = emailEt.getText().toString().trim();
+                beginRecovery(email);
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+
+        builder.create().show();
+
+    }
+
+    private void beginRecovery(String email) {
+        pd.setMessage("Enviando..");
+        pd.show();
+        mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                pd.dismiss();
+                if(task.isSuccessful()){
+                    Toast.makeText(LoginActivity.this, "Correo enviado!", Toast.LENGTH_SHORT).show();
+                } else {
+                    pd.dismiss();
+                    Toast.makeText(LoginActivity.this, "Algo no salio bien...", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                pd.dismiss();
+                Toast.makeText(LoginActivity.this, ""+e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void loginUser(String email, String passw) {

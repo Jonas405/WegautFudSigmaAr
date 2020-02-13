@@ -110,7 +110,7 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("USER");
         Folder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
-        CheckProfileImage();
+
 
 
 
@@ -163,14 +163,13 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
             getSupportActionBar().setTitle(showUpButton ? getResources().getString(R.string.title_activity_sticker_pack_details_multiple_pack) : getResources().getQuantityString(R.plurals.title_activity_sticker_packs_list, 1));
         }
 
-        /*CheckProfileImage();*/
-
+        CheckProfileImage();
 
     }
 
     private void CheckProfileImage() {
         user = firebaseAuth.getCurrentUser();
-        Query query = databaseReference.orderByChild("uid").equalTo(user.getUid());
+        Query query = databaseReference.orderByChild("email").equalTo(user.getEmail());
         query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
