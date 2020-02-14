@@ -8,6 +8,8 @@
 
 package com.example.samplestickerapp;
 
+import android.app.MediaRouteButton;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -19,6 +21,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -98,11 +101,13 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
 
 /*
         mDatabase = FirebaseDatabase.getInstance().getReference();
-*/
+*/      ProgressDialog pd;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sticker_pack_details);
         boolean showUpButton = getIntent().getBooleanExtra(EXTRA_SHOW_UP_BUTTON, false);
         stickerPack = getIntent().getParcelableExtra(EXTRA_STICKER_PACK_DATA);
+        ProgressBar progressBar = findViewById(R.id.progressbar);
+
 
 
         //handle firebase auth init
@@ -164,6 +169,8 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         }
 
         CheckProfileImage();
+        pd = new ProgressDialog(this);
+        pd.setMessage("Subiendo...");
 
     }
 
@@ -178,6 +185,9 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
 
                     try {
                         Picasso.get().load(image).into(profile_image);
+                        ProgressBar progressBar;
+                        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+                        progressBar.setVisibility(View.GONE); // To show the ProgressBar
                     } catch (Exception e) {
 
                     }
@@ -203,6 +213,9 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        ProgressBar progressBar;
+        progressBar = (ProgressBar) findViewById(R.id.progressbar);
+        progressBar.setVisibility(View.VISIBLE); // To show the ProgressBar
         super.onActivityResult(requestCode, resultCode, data);
 
         if(requestCode == ImageBack){
@@ -213,8 +226,10 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
                 ImageName.putFile(ImageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        progressBar.setVisibility(View.INVISIBLE); // To hide the ProgressBar
                         Toast.makeText(StickerPackDetailsActivity.this, "Foto subida!", Toast.LENGTH_SHORT).show();
                         ImageName.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+
                             @Override
                             public void onSuccess(Uri uri) {
                                 user = firebaseAuth.getCurrentUser();
