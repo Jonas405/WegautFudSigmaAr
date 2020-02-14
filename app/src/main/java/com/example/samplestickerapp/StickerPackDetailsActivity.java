@@ -169,8 +169,6 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         }
 
         CheckProfileImage();
-        pd = new ProgressDialog(this);
-        pd.setMessage("Subiendo...");
 
     }
 
