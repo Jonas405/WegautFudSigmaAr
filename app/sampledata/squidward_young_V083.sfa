@@ -532,7 +532,6 @@
     name: 'squidward_young_V083',
     recenter: 'root',
     scale: 0.015886700000000001,
-
   },
   version: '0.54:2',
 }

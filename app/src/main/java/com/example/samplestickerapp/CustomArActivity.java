@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.ar.core.Anchor;
@@ -24,16 +25,21 @@ import com.google.ar.sceneform.AnchorNode;
 import com.google.ar.sceneform.FrameTime;
 import com.google.ar.sceneform.Scene;
 import com.google.ar.sceneform.rendering.ModelRenderable;
+import com.google.ar.sceneform.rendering.Renderable;
+import com.google.ar.sceneform.ux.ArFragment;
+import com.google.ar.sceneform.ux.TransformableNode;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Collection;
 
-public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdateListener {
+public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdateListener{
 
 
     private CustomArFragment arFragment;
+    private boolean shouldAddModel = true;
     Button buttonPhoto;
 
     @Override
@@ -43,6 +49,15 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         //Scene AR
         setContentView(R.layout.activity_custom_ar);
         arFragment = (CustomArFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+
+        //New code
+        arFragment.getPlaneDiscoveryController().hide();
+        // New Code method setOn new method addOn
+       // arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdateFrame);
+
+     //
+
+        //Old Code (comment below)
         arFragment.getArSceneView().getScene().addOnUpdateListener(this);
 
         //ButtonPhoto
@@ -64,7 +79,98 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
     }
 
 
-    private String saveToInternalStorage(Bitmap bitmapImage){
+    // New Code  /////////////////////////////////////////////////////////////
+
+    //Create database augmented image
+  /*  public boolean setupAugmentedImageDb(Config config, Session session){
+        AugmentedImageDatabase augmentedImageDatabase;
+
+        Bitmap bitmap = loadAugmentedImage();
+
+        if (bitmap == null){
+            return  false;
+        }
+
+        augmentedImageDatabase = new AugmentedImageDatabase(session);
+        augmentedImageDatabase.addImage("bobsponjajr", bitmap);
+
+        config.setAugmentedImageDatabase(augmentedImageDatabase);
+        return true;
+    }
+
+
+*/
+  //Other youtube mulyiple imag
+/*  private boolean buildDatabase(Config config, Session session){
+      AugmentedImageDatabase augmentedImageDatabase;
+      try {
+          InputStream inputStream = getAssets().open("AugmentedImagesFudSnax.imgdb");
+          augmentedImageDatabase = AugmentedImageDatabase.deserialize(session,inputStream);
+          config.setAugmentedImageDatabase(augmentedImageDatabase);
+          return true;
+      } catch (IOException e) {
+          e.printStackTrace();
+          return false;
+      }
+  }*/
+
+    //update the frame
+/*
+    private void onUpdateFrame(FrameTime frameTime){
+            Frame frame = arFragment.getArSceneView().getArFrame();
+
+            Collection<AugmentedImage> augmentedImages = frame.getUpdatedTrackables(AugmentedImage.class);
+
+            for (AugmentedImage augmentedImage : augmentedImages){
+
+                if (augmentedImage.getTrackingState() == TrackingState.TRACKING){
+
+                    if (augmentedImage.getName().equals("bobsponjajr") && shouldAddModel){
+                        placeObject(arFragment,
+                                augmentedImage.createAnchor(augmentedImage.getCenterPose()),
+                                Uri.parse("bob_young_V101.sfb"));
+                        shouldAddModel = false;
+                    }
+
+                }
+            }
+
+    }
+*/
+
+
+ /*   // Create a node Object AR
+    private void placeObject(ArFragment fragment, Anchor anchor, Uri model){
+        ModelRenderable.builder()
+                .setSource(fragment.getContext(), model)
+                .build()
+                .thenAccept(renderable -> addNodeToScene(fragment, anchor, renderable))
+                .exceptionally((throwable -> {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage(throwable.getMessage())
+                            .setTitle("Error!");
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    return null;
+                }));
+    }
+
+    private void addNodeToScene(ArFragment fragment, Anchor anchor, Renderable renderable){
+        AnchorNode anchorNode = new AnchorNode(anchor);
+        TransformableNode node = new TransformableNode(fragment.getTransformationSystem());
+        node.setRenderable(renderable);
+        node.setParent(anchorNode);
+        fragment.getArSceneView().getScene().addChild(anchorNode);
+        node.select();
+    }
+*/
+
+
+
+
+    ////////////////////////////////////////////////////////////////////////// Old Code
+
+   /* private String saveToInternalStorage(Bitmap bitmapImage){
         ContextWrapper cw = new ContextWrapper(getApplicationContext());
         // path to /data/data/yourapp/app_data/imageDir
         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
@@ -88,7 +194,7 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         return directory.getAbsolutePath();
     }
 
- /*   private void readInternalStorageloadImageFromStorage(String path)
+    private void readInternalStorageloadImageFromStorage(String path)
     {
 
         try {
@@ -102,12 +208,11 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
             e.printStackTrace();
         }
 
-    }*/
-
+    }
+*/
     public void setupDatabase(Config config, Session session){
         //dba config and created
         //Get resource from drawable path
-        Bitmap foxBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.fox);
         Bitmap bobsponaJrBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.bobsponjajr);
         Bitmap calamardoJrBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.calamardojr);
         Bitmap patricioJrBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.patriciojr);
@@ -117,7 +222,6 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         AugmentedImageDatabase aid = new AugmentedImageDatabase(session);
 
         //Add image to image db
-        aid.addImage("fox",foxBitmap);
         aid.addImage("bobsponjajr",bobsponaJrBitmap);
         aid.addImage("calamardojr",calamardoJrBitmap);
         aid.addImage("patriciojr",patricioJrBitmap);
@@ -132,41 +236,49 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
     public void onUpdate(FrameTime frameTime) {
 
         Frame frame = arFragment.getArSceneView().getArFrame();
+
+        // If there is no frame, just return.
+        if (frame == null) {
+            return;
+        }
+
         Collection<AugmentedImage> images = frame.getUpdatedTrackables(AugmentedImage.class);
         for (AugmentedImage image : images) {
 
             if (image.getTrackingState() == TrackingState.TRACKING) {
-
-                //Create Model Fox
-                if (image.getName().equals("fox")) {
-                    Anchor anchor = image.createAnchor(image.getCenterPose());
-                    createModelFox(anchor);
-
                     //Create Bob Sponja
-                } if (image.getName().equals("bobsponjajr")) {
-                    Anchor anchor = image.createAnchor(image.getCenterPose());
-                    createModelBob(anchor);
+                  if (image.getName().equals("bobsponjajr") && shouldAddModel){
+                        placeObject(arFragment,
+                                image.createAnchor(image.getCenterPose()),
+                                Uri.parse("bob_young_V101.sfb"));
+                        shouldAddModel = false;
 
                     //Create Calamardo
-                } if (image.getName().equals("calamardojr")) {
-                    Anchor anchor = image.createAnchor(image.getCenterPose());
-                    createModelCalamardo(anchor);
+                } if (image.getName().equals("calamardojr") && shouldAddModel) {
+                        placeObject(arFragment,
+                                image.createAnchor(image.getCenterPose()),
+                                Uri.parse("squidward_young_V083.sfb"));
+                        shouldAddModel = false;
 
                     //Create Patricio
-                } if (image.getName().equals("patriciojr")) {
-                    Anchor anchor = image.createAnchor(image.getCenterPose());
-                    createModelPatricio(anchor);
+                } if (image.getName().equals("patriciojr") && shouldAddModel) {
+                            placeObject(arFragment,
+                                    image.createAnchor(image.getCenterPose()),
+                                    Uri.parse("patrick_young_V069.sfb"));
+                            shouldAddModel = false;
 
                     //Create Don cangrejo
-                } if (image.getName().equals("donconcangrejojr")) {
-                    Anchor anchor = image.createAnchor(image.getCenterPose());
-                    createModelDonCangrejo(anchor);
+                } if (image.getName().equals("donconcangrejojr") && shouldAddModel) {
+                            placeObject(arFragment,
+                                    image.createAnchor(image.getCenterPose()),
+                                    Uri.parse("MrKrabs_valid.sfb"));
+                            shouldAddModel = false;
                 }
             }
         }
     }
 
-    private void createModelFox(Anchor anchor){
+  /*  private void createModelFox(Anchor anchor){
 
         ModelRenderable.builder()
                 .setSource(this, Uri.parse("ArcticFox_Posed.sfb"))
@@ -205,15 +317,42 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
                 .build()
                 .thenAccept(modelRenderable -> placeModel(modelRenderable, anchor));
     }
-
-
+*/
+/*
     private void placeModel(ModelRenderable modelRenderable, Anchor anchor) {
+
 
         AnchorNode anchorNode = new AnchorNode(anchor);
         anchorNode.setRenderable(modelRenderable);
         arFragment.getArSceneView().getScene().addChild(anchorNode);
+    }*/
+
+
+    /// Code adaptation
+    private void placeObject(ArFragment fragment, Anchor anchor, Uri model){
+        Log.d("Construyendo", "Construyendo");
+        ModelRenderable.builder()
+                .setSource(fragment.getContext(), model)
+                .build()
+                .thenAccept(renderable -> addNodeToScene(fragment, anchor, renderable))
+                .exceptionally((throwable -> {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                    builder.setMessage(throwable.getMessage())
+                            .setTitle("Error!");
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+                    return null;
+                }));
     }
 
+    private void addNodeToScene(ArFragment fragment, Anchor anchor, Renderable renderable){
+        Log.d("Construyendo", "Construyendo Nodo");
+        AnchorNode anchorNode = new AnchorNode(anchor);
+        TransformableNode node = new TransformableNode(fragment.getTransformationSystem());
+        node.setRenderable(renderable);
+        node.setParent(anchorNode);
+        fragment.getArSceneView().getScene().addChild(anchorNode);
 
+    }
 
 }

@@ -479,7 +479,7 @@
     file: 'sampledata/patrick_young_V069.obj',
     name: 'patrick_young_V069',
     recenter: 'root',
-    scale: 0.015886700000000001,
+    scale: 0.00015886700000000001,
   },
   version: '0.54:2',
 }
