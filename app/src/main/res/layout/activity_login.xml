@@ -79,6 +79,17 @@
 
     </LinearLayout>
 
+    <TextView
+        android:id="@+id/RecoverAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="Olvidaste tu contrase;a?"
+        android:textAlignment="center"
+        android:textColor="@color/colorBlack"
+        android:textSize="20sp"
+        android:layout_marginBottom="20sp"/>
 
     <TextView
         android:id="@+id/nothave_accountTv"
@@ -90,5 +101,5 @@
         android:textAlignment="center"
         android:textColor="@color/colorBlack"
         android:textSize="20sp"
-        android:layout_marginBottom="20sp"/>
+        android:layout_marginBottom="50sp"/>
 </RelativeLayout>

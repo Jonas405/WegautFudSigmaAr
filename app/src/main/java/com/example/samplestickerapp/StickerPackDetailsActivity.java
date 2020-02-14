@@ -25,9 +25,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.common.net.InternetDomainName;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -74,18 +78,27 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
     private StickerPack stickerPack;
     private View divider;
     private WhiteListCheckAsyncTask whiteListCheckAsyncTask;
+    private String ProfileImage;
+    String imageurl;
 
 
     //init button Ar Activity
     Button mActivityAr;
     //Firebase Auth
     FirebaseAuth firebaseAuth;
+    FirebaseUser user;
+    FirebaseDatabase firebaseDatabase;
+    DatabaseReference databaseReference;
+
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
+/*
         mDatabase = FirebaseDatabase.getInstance().getReference();
+*/
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sticker_pack_details);
         boolean showUpButton = getIntent().getBooleanExtra(EXTRA_SHOW_UP_BUTTON, false);
@@ -94,6 +107,13 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
 
         //handle firebase auth init
         firebaseAuth = FirebaseAuth.getInstance();
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference("USER");
+        Folder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
+
+
+
+
 
         //button Ar
         mActivityAr = findViewById(R.id.arActivityImage);
@@ -116,12 +136,10 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         tabs.setupWithViewPager(viewPager);*/
 
         profile_image = findViewById(R.id.profile_image);
-
-        Folder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
-
         addButton = findViewById(R.id.add_to_whatsapp_button);
         alreadyAddedText = findViewById(R.id.already_added_text);
         layoutManager = new GridLayoutManager(this, 1);
+
 
 
         recyclerView = findViewById(R.id.sticker_list);
@@ -145,7 +163,35 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
             getSupportActionBar().setTitle(showUpButton ? getResources().getString(R.string.title_activity_sticker_pack_details_multiple_pack) : getResources().getQuantityString(R.plurals.title_activity_sticker_packs_list, 1));
         }
 
+        CheckProfileImage();
+
     }
+
+    private void CheckProfileImage() {
+        user = firebaseAuth.getCurrentUser();
+        Query query = databaseReference.orderByChild("email").equalTo(user.getEmail());
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                    String image = ""+ ds.child("image").getValue();
+
+                    try {
+                        Picasso.get().load(image).into(profile_image);
+                    } catch (Exception e) {
+
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
 
     public void UploadData(View view) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -153,12 +199,6 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         startActivityForResult(intent, ImageBack);
     }
 
-    public void onDataChange(DataSnapshot dataSnapshot) {
-        // Get Post object and use the values to update the UI
-        Users users = dataSnapshot.getValue(Users.class);
-        Log.d("AAA", "USER ARE: " + users);
-        // ...
-    }
 
 
     @Override
@@ -169,7 +209,7 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
             if(resultCode == RESULT_OK){
 
                 Uri ImageData = data.getData();
-                StorageReference ImageName = Folder.child("image"+ImageData.getLastPathSegment());
+                StorageReference ImageName = Folder.child("ImageFolder"+ImageData.getLastPathSegment());
                 ImageName.putFile(ImageData).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -177,11 +217,33 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
                         ImageName.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                             @Override
                             public void onSuccess(Uri uri) {
-                                DatabaseReference imageStore = FirebaseDatabase.getInstance().getReference().child("image");
+                                user = firebaseAuth.getCurrentUser();
+                                FirebaseUser user = firebaseAuth.getCurrentUser();
+
+                                String email = user.getEmail();
+                                String uid = user.getUid();
+
+                                HashMap<Object, String> hashMap = new HashMap<>();
+
+                                hashMap.put("email", email);
+                                hashMap.put("uid", uid);
+                                hashMap.put("name", "");
+                                hashMap.put("image", String.valueOf(uri));
+
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                                DatabaseReference reference = database.getReference("USER");
+                                user = firebaseAuth.getCurrentUser();
+                                Query query = databaseReference.orderByChild("uid").equalTo(user.getUid());
+
+                                reference.child(uid).setValue(hashMap);
+
+
+                               /* DatabaseReference imageStore = FirebaseDatabase.getInstance().getReference().child("USER/" + user.getUid() + "/ProfileImg");
                                 HashMap<String,String> hashMap = new HashMap<>();
                                 hashMap.put("imageUrl", String.valueOf(uri));
 
-                                imageStore.setValue(hashMap);
+                                imageStore.setValue(hashMap);*/
                                 Picasso.get().load(uri).into(profile_image);
 
                             }
@@ -324,6 +386,7 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         }
     }
 
-    private class Users {
+    private class User {
+        private String ProfileURL;
     }
 }
