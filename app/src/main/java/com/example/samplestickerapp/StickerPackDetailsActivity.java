@@ -49,6 +49,10 @@ import com.squareup.picasso.Picasso;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
+import org.json.simple.parser.*;
+// import org.json.simple.*;
+import org.json.*;
+
 
 public class StickerPackDetailsActivity extends AddStickerPackActivity implements StickersFragment.OnFragmentInteractionListener, ColeccionFragment.OnFragmentInteractionListener{
     FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
@@ -250,13 +254,6 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
                                 Query query = databaseReference.orderByChild("uid").equalTo(user.getUid());
 
                                 reference.child(uid).setValue(hashMap);
-
-
-                               /* DatabaseReference imageStore = FirebaseDatabase.getInstance().getReference().child("USER/" + user.getUid() + "/ProfileImg");
-                                HashMap<String,String> hashMap = new HashMap<>();
-                                hashMap.put("imageUrl", String.valueOf(uri));
-
-                                imageStore.setValue(hashMap);*/
                                 Picasso.get().load(uri).into(profile_image);
 
                             }
