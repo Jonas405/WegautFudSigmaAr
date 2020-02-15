@@ -117,9 +117,6 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         Folder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
 
 
-
-
-
         //button Ar
         mActivityAr = findViewById(R.id.arActivityImage);
         //Go to Ar Activity when is push

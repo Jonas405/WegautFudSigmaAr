@@ -30,12 +30,18 @@ public class EntryActivity extends BaseActivity {
     private View progressBar;
     private LoadListAsyncTask loadListAsyncTask;
 
+    //Firebase Auth
+    FirebaseAuth firebaseAuth;
+
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entry);
+
+        //init
+        firebaseAuth = FirebaseAuth.getInstance();
 
         //Create Profile
         overridePendingTransition(0, 0);
@@ -124,5 +130,24 @@ public class EntryActivity extends BaseActivity {
         }
     }
 
+    private void checkUserStatus(){
+        //get current user
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        if(user != null){
+            //user is signed in stay here
+        }
+        else {
+            //user not signed in, go to main activity
+            startActivity(new Intent(EntryActivity.this, LoginActivity.class));
+            finish();
+        }
+    }
+
+    @Override
+    protected void onStart(){
+        //check on start of app
+        checkUserStatus();
+        super.onStart();
+    }
 
 }
