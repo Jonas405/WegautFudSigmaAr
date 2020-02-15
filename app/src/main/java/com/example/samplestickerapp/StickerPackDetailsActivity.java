@@ -46,9 +46,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import java.io.FileWriter;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
-
 
 
 public class StickerPackDetailsActivity extends AddStickerPackActivity implements StickersFragment.OnFragmentInteractionListener, ColeccionFragment.OnFragmentInteractionListener{
@@ -58,6 +62,7 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
     ImageButton profile_image;
     Button coleccionBtn;
     private int ImageBack = 1;
+    FileWriter file;
     /**
      * Do not change below values of below 3 lines as this is also used by WhatsApp
      */
@@ -87,7 +92,7 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
 
 
     //init button Ar Activity
-    Button mActivityAr;
+    Button mActivityAr, JSONbtn;
     //Firebase Auth
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
@@ -102,12 +107,14 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
 
 /*
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
 */      ProgressDialog pd;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sticker_pack_details);
         boolean showUpButton = getIntent().getBooleanExtra(EXTRA_SHOW_UP_BUTTON, false);
         stickerPack = getIntent().getParcelableExtra(EXTRA_STICKER_PACK_DATA);
         ProgressBar progressBar = findViewById(R.id.progressbar);
+        JSONbtn  = findViewById(R.id.JSONbtn);
 
 
 
@@ -115,11 +122,8 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
         databaseReference = firebaseDatabase.getReference("USER");
+
         Folder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
-
-
-
-
 
         //button Ar
         mActivityAr = findViewById(R.id.arActivityImage);
@@ -131,15 +135,6 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
             }
         });
 
-      /*  TextView packNameTextView = findViewById(R.id.pack_name);
-        TextView packPublisherTextView = findViewById(R.id.author);
-        ImageView packTrayIcon = findViewById(R.id.tray_image);
-        TextView packSizeTextView = findViewById(R.id.pack_size);*/
-      /*  SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(this, getSupportFragmentManager());
-        ViewPager viewPager = findViewById(R.id.view_pager);
-        viewPager.setAdapter(sectionsPagerAdapter);
-        TabLayout tabs = findViewById(R.id.tabs);
-        tabs.setupWithViewPager(viewPager);*/
 
         profile_image = findViewById(R.id.profile_image);
         addButton = findViewById(R.id.add_to_whatsapp_button);
@@ -171,7 +166,22 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
 
         CheckProfileImage();
 
+
+        JSONbtn.setOnClickListener(new View.OnClickListener() {
+            String[] myStrings = { "One", "Two", "Three" };
+            @Override
+            public void onClick(View v) {
+
+                main(myStrings);
+
+            }
+        });
+
     }
+
+
+
+
 
     private void CheckProfileImage() {
         user = firebaseAuth.getCurrentUser();
@@ -200,6 +210,48 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         });
 
     }
+
+    @SuppressWarnings("unchecked")
+    public void main(String[] args) {
+
+        // JSON object. Key value pairs are unordered. JSONObject supports java.util.Map interface.
+        JSONObject obj = new JSONObject();
+        obj.put("Name", "Crunchify.com");
+        obj.put("Author", "App Shah");
+
+        JSONArray company = new JSONArray();
+        company.add("Company: Facebook");
+        company.add("Company: PayPal");
+        company.add("Company: Google");
+        obj.put("Company List", company);
+        try {
+
+            // Constructs a FileWriter given a file name, using the platform's default charset
+            file = new FileWriter("/Users/crunchify.txt");
+            file.write(obj.toJSONString());
+            CrunchifyLog("Successfully Copied JSON Object to File...");
+            CrunchifyLog("\nJSON Object: " + obj);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        } finally {
+
+            try {
+                file.flush();
+                file.close();
+            } catch (IOException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+    static public void CrunchifyLog(String str) {
+        System.out.println("str");
+    }
+
 
 
     public void UploadData(View view) {
