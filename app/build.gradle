@@ -56,6 +56,12 @@ android {
 //            universalApk true // Specifies that we want to also generate a universal APK that includes all ABIs.
 //        }
 //    }
+
+    configurations {
+        compile.exclude group: "junit", module: "junit"
+    }
+
+
 }
 
 task checkDebug {
