@@ -22,6 +22,7 @@ import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -63,6 +64,7 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
     Button coleccionBtn;
     private int ImageBack = 1;
     FileWriter file;
+    TextView signOutBtn;
     /**
      * Do not change below values of below 3 lines as this is also used by WhatsApp
      */
@@ -115,6 +117,7 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         stickerPack = getIntent().getParcelableExtra(EXTRA_STICKER_PACK_DATA);
         ProgressBar progressBar = findViewById(R.id.progressbar);
         JSONbtn  = findViewById(R.id.JSONbtn);
+        signOutBtn = findViewById(R.id.signOutBtn);
 
 
 
@@ -174,6 +177,15 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
 
                 main(myStrings);
 
+            }
+        });
+
+
+        signOutBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(StickerPackDetailsActivity.this, LoginActivity.class));
             }
         });
 
