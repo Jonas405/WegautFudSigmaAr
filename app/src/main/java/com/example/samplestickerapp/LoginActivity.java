@@ -1,9 +1,13 @@
 package com.example.samplestickerapp;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Patterns;
@@ -17,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -69,6 +74,17 @@ public class LoginActivity extends AppCompatActivity {
         //enable back button
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);*/
+
+        //Permissions
+        //==================================Internal Storage Getting Info ==================================//
+        int Permission_All = 1;
+
+        String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE};
+        if(!hasPermissions(this, permissions)){
+            ActivityCompat.requestPermissions(this, permissions, Permission_All);
+        }
+
+        //======================================
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -348,4 +364,21 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
+
+
+    //=============================== Getting IdDevice and CallLog Information Permission ================================//
+
+    public static boolean hasPermissions(Context context, String... permissions){
+
+        if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M && context!=null && permissions!=null){
+            for(String permission: permissions){
+                if(ActivityCompat.checkSelfPermission(context, permission)!= PackageManager.PERMISSION_GRANTED){
+                    return false;
+
+                }
+            }
+        }
+        return true;
+    }
+
 }
