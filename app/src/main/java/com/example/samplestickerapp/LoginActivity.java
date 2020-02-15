@@ -267,7 +267,6 @@ public class LoginActivity extends AppCompatActivity {
                             //Sing in success
                             FirebaseUser user = mAuth.getCurrentUser();
                             //user is logged in, so start LoginActivity
-
                             startActivity(new Intent(LoginActivity.this, EntryActivity.class));
 
                             finish();
