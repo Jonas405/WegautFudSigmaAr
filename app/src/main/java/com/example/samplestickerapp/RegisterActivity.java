@@ -128,6 +128,11 @@ public class RegisterActivity extends AppCompatActivity {
 
 
                             Toast.makeText(RegisterActivity.this, "Registered...\n"+user.getEmail(), Toast.LENGTH_SHORT).show();
+
+                            /*
+                            firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+                            */
+
                             startActivity(new Intent(RegisterActivity.this, EntryActivity.class));
                             finish();
 

@@ -49,9 +49,6 @@ import com.squareup.picasso.Picasso;
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
-import org.json.simple.parser.*;
-// import org.json.simple.*;
-import org.json.*;
 
 
 public class StickerPackDetailsActivity extends AddStickerPackActivity implements StickersFragment.OnFragmentInteractionListener, ColeccionFragment.OnFragmentInteractionListener{

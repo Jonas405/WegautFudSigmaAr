@@ -34,6 +34,12 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class LoginActivity extends AppCompatActivity {
 
     private static final int RC_SIGN_IN = 100;
@@ -45,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     SignInButton mGoogleLoginBtn;
 
     //Declare an instance of FirebaseAuth
-    private FirebaseAuth mAuth;
+    FirebaseAuth mAuth;
 
     //progress dialog
     ProgressDialog pd;
@@ -134,6 +140,51 @@ public class LoginActivity extends AppCompatActivity {
         pd.setMessage("Loggin In...");
     }
 
+    public class CrunchifyJSONFileWrite {
+        private FileWriter file;
+
+        @SuppressWarnings("unchecked")
+        public  void main(String[] args) {
+
+            // JSON object. Key value pairs are unordered. JSONObject supports java.util.Map interface.
+            JSONObject obj = new JSONObject();
+            obj.put("Name", "Crunchify.com");
+            obj.put("Author", "App Shah");
+
+            JSONArray company = new JSONArray();
+            company.add("Company: Facebook");
+            company.add("Company: PayPal");
+            company.add("Company: Google");
+            obj.put("Company List", company);
+            try {
+
+                // Constructs a FileWriter given a file name, using the platform's default charset
+                file = new FileWriter("/Users/Shared/crunchify.txt");
+                file.write(obj.toJSONString());
+                CrunchifyLog("Successfully Copied JSON Object to File...");
+                CrunchifyLog("\nJSON Object: " + obj);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+
+            } finally {
+
+                try {
+                    file.flush();
+                    file.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        public void CrunchifyLog(String str) {
+            System.out.println("str");
+        }
+
+    }
+
     private void showRecoverPasswordDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Recuperar Contrase;a");
@@ -169,9 +220,15 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
+
     private void beginRecovery(String email) {
         pd.setMessage("Enviando...");
         pd.show();
+
+/*
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+*/
+
         mAuth.sendPasswordResetEmail(email).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -195,6 +252,11 @@ public class LoginActivity extends AppCompatActivity {
     private void loginUser(String email, String passw) {
         //show
         pd.show();
+
+
+/*
+        firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
+*/
         mAuth.signInWithEmailAndPassword(email, passw)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
