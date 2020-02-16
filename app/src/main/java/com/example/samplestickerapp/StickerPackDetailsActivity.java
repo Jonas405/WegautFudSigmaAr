@@ -21,6 +21,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,12 +57,11 @@ import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 
-public class StickerPackDetailsActivity extends AddStickerPackActivity implements StickersFragment.OnFragmentInteractionListener, ColeccionFragment.OnFragmentInteractionListener{
+public class StickerPackDetailsActivity extends AddStickerPackActivity {
     FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
     private DatabaseReference mDatabase;// ...
     private StorageReference Folder;
-    ImageButton profile_image;
-    Button coleccionBtn;
+    ImageView profile_image, goBackAR;
     private int ImageBack = 1;
     FileWriter file;
     TextView signOutBtn;
@@ -93,8 +93,6 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
     String imageurl;
 
 
-    //init button Ar Activity
-    Button mActivityAr, JSONbtn;
     //Firebase Auth
     FirebaseAuth firebaseAuth;
     FirebaseUser user;
@@ -116,9 +114,8 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         boolean showUpButton = getIntent().getBooleanExtra(EXTRA_SHOW_UP_BUTTON, false);
         stickerPack = getIntent().getParcelableExtra(EXTRA_STICKER_PACK_DATA);
         ProgressBar progressBar = findViewById(R.id.progressbar);
-        JSONbtn  = findViewById(R.id.JSONbtn);
         signOutBtn = findViewById(R.id.signOutBtn);
-
+        goBackAR = findViewById(R.id.goBackAR);
 
 
         //handle firebase auth init
@@ -127,16 +124,9 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         databaseReference = firebaseDatabase.getReference("USER");
 
         Folder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
-
+        getSupportActionBar().hide();
         //button Ar
-        mActivityAr = findViewById(R.id.arActivityImage);
         //Go to Ar Activity when is push
-        mActivityAr.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(StickerPackDetailsActivity.this, CustomArActivity.class));
-            }
-        });
 
 
         profile_image = findViewById(R.id.profile_image);
@@ -170,22 +160,20 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         CheckProfileImage();
 
 
-        JSONbtn.setOnClickListener(new View.OnClickListener() {
-            String[] myStrings = { "One", "Two", "Three" };
-            @Override
-            public void onClick(View v) {
-
-                main(myStrings);
-
-            }
-        });
-
 
         signOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
+                firebaseAuth.signOut();
                 startActivity(new Intent(StickerPackDetailsActivity.this, LoginActivity.class));
+            }
+        });
+
+        goBackAR.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(StickerPackDetailsActivity.this, CustomArActivity.class));
             }
         });
 
@@ -426,10 +414,6 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity implement
         }
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
 
     static class WhiteListCheckAsyncTask extends AsyncTask<StickerPack, Void, Boolean> {
         private final WeakReference<StickerPackDetailsActivity> stickerPackDetailsActivityWeakReference;

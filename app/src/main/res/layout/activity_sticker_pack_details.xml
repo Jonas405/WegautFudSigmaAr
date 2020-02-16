@@ -25,6 +25,7 @@
                 >
 
                 <ImageView
+                    android:id="@+id/goBackAR"
                     android:layout_width="35dp"
                     android:layout_height="45sp"
                     android:layout_marginHorizontal="10sp"
@@ -60,12 +61,14 @@
                         android:layout_marginBottom="20sp"
                         >
 
-                        <ImageButton
+                        <de.hdodenhof.circleimageview.CircleImageView
                             android:id="@+id/profile_image"
                             android:layout_width="190sp"
                             android:layout_height="190sp"
                             android:layout_gravity="center"
                             android:src="@drawable/user"
+                            android:clickable="true"
+                            android:layout_centerInParent="true"
                             android:scaleType="centerCrop"
                             android:background="@color/colorWhite"
                             android:onClick="UploadData" />
@@ -106,14 +109,8 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-        <!--<com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="?attr/colorPrimary" />
-    </com.google.android.material.appbar.AppBarLayout>-->
 
-    <Button
+    <!--<Button
         android:id="@+id/arActivityImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -124,7 +121,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Generate JSON"/>
+        android:text="Generate JSON"/>-->
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
