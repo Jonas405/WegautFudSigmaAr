@@ -69,18 +69,17 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         arFragment.getArSceneView().getScene().addOnUpdateListener(this);
 
         //ButtonPhoto
-        Button buttonPhoto = findViewById(R.id.btnShanpshot);
+        buttonPhoto = findViewById(R.id.btnShanpshot);
+
         buttonPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 pushButton();
             }
-
             private void pushButton() {
-
                 takePhoto();
                 // saveToInternalStorage();
-                Toast.makeText(getBaseContext(),"ORESI",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(),"BUTTON",Toast.LENGTH_SHORT).show();
             }
 
 
