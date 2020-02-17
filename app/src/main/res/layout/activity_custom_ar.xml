@@ -29,7 +29,7 @@
                 android:layout_height="40sp"
                 android:layout_margin="25sp"
                 android:layout_weight="1"
-                android:src="@drawable/iconInfo"/>
+                android:src="@drawable/iconinfo"/>
 
             <ImageView
                 android:id="@+id/PhotoBtn"
@@ -39,7 +39,7 @@
                 android:layout_marginHorizontal="40sp"
                 android:layout_weight="1"
 
-                android:src="@drawable/iconPhoto"/>
+                android:src="@drawable/iconphoto"/>
 
             <ImageView
                 android:id="@+id/ProfileBtn"
@@ -48,7 +48,7 @@
                 android:layout_margin="25sp"
                 android:layout_weight="1"
                 android:layout_marginHorizontal="40sp"
-                android:src="@drawable/iconProfile"/>
+                android:src="@drawable/iconprofile"/>
 
 
 
@@ -69,7 +69,7 @@
         android:id="@+id/btnShanpshot"
         android:layout_width="100sp"
         android:layout_height="70sp"
-        android:src="@drawable/iconShoot"
+        android:src="@drawable/iconshoot"
         android:layout_marginTop="550sp"
         android:layout_gravity="center_horizontal"
         />
@@ -84,7 +84,7 @@
     <ImageView
         android:layout_width="90sp"
         android:layout_height="60sp"
-        android:src="@drawable/SpongeBoblogo"
+        android:src="@drawable/spongeboblogo"
         android:layout_gravity="end"
         android:layout_margin="20sp"
 
