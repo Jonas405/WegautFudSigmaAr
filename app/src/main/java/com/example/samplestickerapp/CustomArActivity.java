@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.PixelCopy;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -48,7 +49,7 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
 
     private CustomArFragment arFragment;
     private boolean shouldAddModel = true;
-    Button buttonPhoto;
+    ImageView buttonPhoto;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

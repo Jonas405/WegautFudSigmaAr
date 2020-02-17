@@ -7,19 +7,91 @@
     android:layout_height="match_parent"
     tools:context=".CustomArActivity">
 
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="82sp"
+        android:layout_gravity="bottom"
+        >
+
+
+        <LinearLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/colorAccent"
+            android:layout_centerHorizontal="true"
+            >
+
+            <ImageView
+                android:id="@+id/infoBtn"
+                android:layout_width="50sp"
+                android:layout_height="40sp"
+                android:layout_margin="25sp"
+                android:layout_weight="1"
+                android:src="@drawable/iconInfo"/>
+
+            <ImageView
+                android:id="@+id/PhotoBtn"
+                android:layout_width="50sp"
+                android:layout_height="40sp"
+                android:layout_margin="25sp"
+                android:layout_marginHorizontal="40sp"
+                android:layout_weight="1"
+
+                android:src="@drawable/iconPhoto"/>
+
+            <ImageView
+                android:id="@+id/ProfileBtn"
+                android:layout_width="50sp"
+                android:layout_height="40sp"
+                android:layout_margin="25sp"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="40sp"
+                android:src="@drawable/iconProfile"/>
+
+
+
+        </LinearLayout>
+
+
+
+    </RelativeLayout>
+
     <fragment
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="650sp"
         android:id="@+id/fragment"
         android:name="com.example.samplestickerapp.CustomArFragment"/>
 
-    <Button
+    <ImageView
+        android:clickable="true"
         android:id="@+id/btnShanpshot"
-        android:text="PHOTO"
-        android:textStyle="bold"
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="100sp"
+        android:layout_height="70sp"
+        android:src="@drawable/iconShoot"
+        android:layout_marginTop="550sp"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <ImageView
+        android:layout_width="80sp"
+        android:layout_height="50sp"
+        android:layout_margin="20sp"
+        android:src="@drawable/fudlogo"
+        />
+
+    <ImageView
+        android:layout_width="90sp"
+        android:layout_height="60sp"
+        android:src="@drawable/SpongeBoblogo"
+        android:layout_gravity="end"
+        android:layout_margin="20sp"
+
+        />
+
+
+
 
 
 </FrameLayout>
