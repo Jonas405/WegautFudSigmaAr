@@ -54,6 +54,7 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         Log.d("Entro a la clase en el onCreate", "Entro a la clase en el onCreate");
         //Scene AR
         setContentView(R.layout.activity_custom_ar);

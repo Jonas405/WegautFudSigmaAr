@@ -7,6 +7,12 @@
     android:layout_height="match_parent"
     tools:context=".CustomArActivity">
 
+    <fragment
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fragment"
+        android:name="com.example.samplestickerapp.CustomArFragment"/>
+
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -58,11 +64,7 @@
 
     </RelativeLayout>
 
-    <fragment
-        android:layout_width="match_parent"
-        android:layout_height="650sp"
-        android:id="@+id/fragment"
-        android:name="com.example.samplestickerapp.CustomArFragment"/>
+
 
     <ImageView
         android:clickable="true"
