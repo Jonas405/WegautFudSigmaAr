@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.samplestickerapp.intrucctions"
+    android:background="@color/colorAccent"
+
+    >
+
+    <ImageView
+        android:id="@+id/backBtn"
+        android:clickable="true"
+        android:layout_width="wrap_content"
+        android:layout_height="50sp"
+        android:src="@drawable/iconarrowleft"
+        android:layout_margin="15sp"
+        />
+
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="647sp"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="-3dp"
+        android:background="@color/colorWhite"
+        android:columnCount="1"
+        android:gravity="bottom">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_marginTop="20sp"
+            android:gravity="center_horizontal"
+            android:text="Intrucciones"
+            android:textSize="22sp"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="20sp"
+            android:layout_marginTop="20sp"
+            android:layout_marginBottom="20sp"
+            android:gravity="center_horizontal"
+            android:text="Coloca tu tatuaje donde pueda verlo tu carama"
+            android:textSize="22sp"
+            />
+
+        <ImageView
+            android:src="@drawable/imagetutorial"
+            android:layout_columnWeight="1"
+            />
+
+
+    </GridLayout>
+
+</RelativeLayout>
