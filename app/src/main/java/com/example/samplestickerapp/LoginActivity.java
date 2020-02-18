@@ -23,6 +23,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -35,15 +43,21 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthCredential;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashMap;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -54,6 +68,7 @@ public class LoginActivity extends AppCompatActivity {
     TextView notHaveAccntTv , RecoverAccount;
     Button mLoginBtn;
     SignInButton mGoogleLoginBtn;
+    LoginButton FacebookBtn;
 
     //Declare an instance of FirebaseAuth
     FirebaseAuth mAuth;
@@ -61,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
     //progress dialog
     ProgressDialog pd;
 
-
+    CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +112,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //In the onCreate() method, initialize the FirebaseAuth instance.
         mAuth = FirebaseAuth.getInstance();
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
 
         //init
@@ -106,7 +122,63 @@ public class LoginActivity extends AppCompatActivity {
         mLoginBtn = findViewById(R.id.loginBtn);
         RecoverAccount = findViewById(R.id.RecoverAccount);
         mGoogleLoginBtn = findViewById(R.id.googleLoginBtn);
+        FacebookBtn = findViewById(R.id.facebookBtn);
 
+
+
+        callbackManager = CallbackManager.Factory.create();
+        FacebookBtn.setReadPermissions(Arrays.asList("email"));
+
+
+        FacebookBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        AuthCredential authCredential = FacebookAuthProvider.getCredential(String.valueOf(loginResult.getAccessToken()));
+                        mAuth.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                FirebaseUser user = mAuth.getCurrentUser();
+
+                                String email = user.getEmail();
+                                String uid = user.getUid();
+
+                                HashMap<Object, String> hashMap = new HashMap<>();
+
+                                hashMap.put("email", email);
+                                hashMap.put("uid", uid);
+                                hashMap.put("name", "");
+                                hashMap.put("image", "");
+
+                                FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                                DatabaseReference reference = database.getReference("USER");
+
+                                reference.child(uid).setValue(hashMap);
+
+
+
+                                startActivity(new Intent(LoginActivity.this, EntryActivity.class));
+                                finish();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onCancel() {
+                        Toast.makeText(getApplicationContext(), "Cancelado", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(FacebookException error) {
+                        Toast.makeText(getApplicationContext(), "Hubo un error", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+            }
+        });
 
 
         RecoverAccount.setOnClickListener(new View.OnClickListener() {
@@ -339,6 +411,24 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser user = mAuth.getCurrentUser();
+
+                            String email = user.getEmail();
+                            String uid = user.getUid();
+
+                            HashMap<Object, String> hashMap = new HashMap<>();
+
+                            hashMap.put("email", email);
+                            hashMap.put("uid", uid);
+                            hashMap.put("name", "");
+                            hashMap.put("image", "");
+
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                            DatabaseReference reference = database.getReference("USER");
+
+                            reference.child(uid).setValue(hashMap);
+
+
                             startActivity(new Intent(LoginActivity.this, EntryActivity.class));
                             finish();
                             // updateUI(user);
