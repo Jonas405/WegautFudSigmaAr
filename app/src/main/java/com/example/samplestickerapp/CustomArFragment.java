@@ -1,12 +1,14 @@
 package com.example.samplestickerapp;
 
 import android.util.Log;
+import android.widget.ImageView;
 
 import com.google.ar.core.Config;
 import com.google.ar.core.Session;
 import com.google.ar.sceneform.ux.ArFragment;
 
 public class CustomArFragment extends ArFragment {
+
 
 
     @Override
@@ -20,6 +22,7 @@ public class CustomArFragment extends ArFragment {
         config.setFocusMode(Config.FocusMode.AUTO);
         session.configure(config);
         this.getArSceneView().setupSession(session);
+
 
      /*   if (((CustomArActivity)getActivity()).setupAugmentedImageDb(config,session)){
             Log.d("SetupAugImgDB", "Sucess");

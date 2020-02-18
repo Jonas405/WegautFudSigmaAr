@@ -2,6 +2,7 @@ package com.example.samplestickerapp;
 
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -49,7 +50,7 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
 
     private CustomArFragment arFragment;
     private boolean shouldAddModel = true;
-    ImageView buttonPhoto;
+    ImageView buttonPhoto, InfoBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +73,15 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
 
         //ButtonPhoto
         buttonPhoto = findViewById(R.id.btnShanpshot);
+        InfoBtn = findViewById(R.id.infoBtn);
+
+        InfoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CustomArActivity.this, intrucctions.class));
+                finish();
+            }
+        });
 
         buttonPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
