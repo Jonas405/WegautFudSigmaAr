@@ -44,8 +44,9 @@
                 android:layout_margin="25sp"
                 android:layout_marginHorizontal="40sp"
                 android:layout_weight="1"
+                android:src="@drawable/iconphoto">
+            </ImageView>
 
-                android:src="@drawable/iconphoto"/>
 
             <ImageView
                 android:id="@+id/ProfileBtn"
@@ -83,6 +84,8 @@
         android:src="@drawable/fudlogo"
         />
 
+
+
     <ImageView
         android:layout_width="90sp"
         android:layout_height="60sp"
@@ -91,6 +94,13 @@
         android:layout_margin="20sp"
 
         />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/iconactive"
+        android:layout_gravity="center"
+        android:layout_marginTop="358sp"/>
 
 
 
