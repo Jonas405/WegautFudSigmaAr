@@ -20,9 +20,15 @@ import android.database.MatrixCursor;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,7 +37,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
+
 public class StickerContentProvider extends ContentProvider {
+
+
+    //Firebase instance
+    private FirebaseAuth mAuth;
 
     /**
      * Do not change the strings listed below, as these are used by WhatsApp. And changing these will break the interface between sticker app and WhatsApp.
@@ -145,13 +156,26 @@ public class StickerContentProvider extends ContentProvider {
         }
     }
 
+
+    //------- Add firestore file for read a content.json
+
+
     private synchronized void readContentFile(@NonNull Context context) {
+/*
+        FirebaseUser user = mAuth.getCurrentUser();
+        String email = user.getEmail();
+        String uid = user.getUid();
+        databaseReference = FirebaseDatabase.getInstance().getReference().child("USER/"+uid+"/Contents");
+        stickerPackList = (List<StickerPack>) databaseReference;
+        */
         try (InputStream contentsInputStream = context.getAssets().open(CONTENT_FILE_NAME)) {
             stickerPackList = ContentFileParser.parseStickerPacks(contentsInputStream);
         } catch (IOException | IllegalStateException e) {
             throw new RuntimeException(CONTENT_FILE_NAME + " file has some issues: " + e.getMessage(), e);
         }
     }
+
+    //-------------------------------
 
     private List<StickerPack> getStickerPackList() {
         if (stickerPackList == null) {
@@ -213,12 +237,31 @@ public class StickerContentProvider extends ContentProvider {
 
     @NonNull
     private Cursor getStickersForAStickerPack(@NonNull Uri uri) {
+
+/*        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference();
+        FirebaseUser user = mAuth.getCurrentUser();
+        String email = user.getEmail();
+        String uid = user.getUid();*/
+/*
+
+        String bobpatricio = "bobpatricio.webp";
+        String bobteam1 = "bobteam1.webp";
+        String bobteam2 = "bobteam2.webp";
+        String cangrejo1 = "cangrejo1.webp";
+        String calamardo2= "calamardo2.webp";
+*/
+
+
         final String identifier = uri.getLastPathSegment();
         MatrixCursor cursor = new MatrixCursor(new String[]{STICKER_FILE_NAME_IN_QUERY, STICKER_FILE_EMOJI_IN_QUERY});
         for (StickerPack stickerPack : getStickerPackList()) {
             if (identifier.equals(stickerPack.identifier)) {
+
                 for (Sticker sticker : stickerPack.getStickers()) {
+
+                    //================ Agregar if contra firestorage para ver qlq! ==============================
                     cursor.addRow(new Object[]{sticker.imageFileName, TextUtils.join(",", sticker.emojis)});
+                    //================ Agregar if contra firestorage para ver qlq! ==============================
                 }
             }
         }
