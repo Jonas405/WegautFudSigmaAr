@@ -21,7 +21,7 @@
 
     <GridLayout
         android:layout_width="match_parent"
-        android:layout_height="647sp"
+        android:layout_height="670sp"
         android:layout_alignParentBottom="true"
         android:layout_marginBottom="-3dp"
         android:background="@color/colorWhite"

@@ -50,7 +50,7 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
 
     private CustomArFragment arFragment;
     private boolean shouldAddModel = true;
-    ImageView buttonPhoto, InfoBtn;
+    ImageView buttonPhoto, InfoBtn, ProfileBtn, GalleryBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,12 +74,13 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         //ButtonPhoto
         buttonPhoto = findViewById(R.id.btnShanpshot);
         InfoBtn = findViewById(R.id.infoBtn);
+        ProfileBtn = findViewById(R.id.ProfileBtn);
+        GalleryBtn = findViewById(R.id.PhotoBtn);
 
         InfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(CustomArActivity.this, intrucctions.class));
-                finish();
             }
         });
 
@@ -95,6 +96,26 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
             }
 
 
+        });
+
+
+        ProfileBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CustomArActivity.this, EntryActivity.class));
+            }
+        });
+
+
+        GalleryBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent();
+                intent.setAction(android.content.Intent.ACTION_VIEW);
+                intent.setType("image/*");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(intent);
+            }
         });
     }
 

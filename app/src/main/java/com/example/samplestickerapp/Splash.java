@@ -48,7 +48,7 @@ public class Splash extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
         if(user != null){
             //user is signed in stay here
-            startActivity(new Intent(Splash.this, EntryActivity.class));
+            startActivity(new Intent(Splash.this, CustomArActivity.class));
             finish();
         }
         else {

@@ -66,12 +66,12 @@
 
             />
 
-        <com.facebook.login.widget.LoginButton
+    <!--    <com.facebook.login.widget.LoginButton
             android:id="@+id/facebookBtn"
             android:layout_width="200sp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            />
+            />-->
 
 
 

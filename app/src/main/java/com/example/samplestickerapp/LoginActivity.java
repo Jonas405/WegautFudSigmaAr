@@ -23,14 +23,14 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
-import com.facebook.AccessToken;
+/*import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
+import com.facebook.login.widget.LoginButton;*/
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -68,7 +68,9 @@ public class LoginActivity extends AppCompatActivity {
     TextView notHaveAccntTv , RecoverAccount;
     Button mLoginBtn;
     SignInButton mGoogleLoginBtn;
+/*
     LoginButton FacebookBtn;
+*/
 
     //Declare an instance of FirebaseAuth
     FirebaseAuth mAuth;
@@ -76,7 +78,9 @@ public class LoginActivity extends AppCompatActivity {
     //progress dialog
     ProgressDialog pd;
 
+/*
     CallbackManager callbackManager;
+*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,7 +116,9 @@ public class LoginActivity extends AppCompatActivity {
 
         //In the onCreate() method, initialize the FirebaseAuth instance.
         mAuth = FirebaseAuth.getInstance();
+/*
         FacebookSdk.sdkInitialize(getApplicationContext());
+*/
 
 
         //init
@@ -122,15 +128,21 @@ public class LoginActivity extends AppCompatActivity {
         mLoginBtn = findViewById(R.id.loginBtn);
         RecoverAccount = findViewById(R.id.RecoverAccount);
         mGoogleLoginBtn = findViewById(R.id.googleLoginBtn);
+/*
         FacebookBtn = findViewById(R.id.facebookBtn);
+*/
 
 
 
+/*
         callbackManager = CallbackManager.Factory.create();
+*/
+/*
         FacebookBtn.setReadPermissions(Arrays.asList("email"));
+*/
 
 
-        FacebookBtn.setOnClickListener(new View.OnClickListener() {
+/*        FacebookBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 LoginManager.getInstance().registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -178,7 +190,7 @@ public class LoginActivity extends AppCompatActivity {
                     }
                 });
             }
-        });
+        });*/
 
 
         RecoverAccount.setOnClickListener(new View.OnClickListener() {
