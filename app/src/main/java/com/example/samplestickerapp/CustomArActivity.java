@@ -5,6 +5,7 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Camera;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -44,13 +45,14 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
 
-
 public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdateListener{
 
 
     private CustomArFragment arFragment;
     private boolean shouldAddModel = true;
-    ImageView buttonPhoto, InfoBtn, ProfileBtn, GalleryBtn;
+    ImageView buttonPhoto, buttonPhotoFront, InfoBtn, ProfileBtn, GalleryBtn;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,9 +66,9 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         //New code
         arFragment.getPlaneDiscoveryController().hide();
         // New Code method setOn new method addOn
-       // arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdateFrame);
+        // arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdateFrame);
 
-     //
+        //
 
         //Old Code (comment below)
         arFragment.getArSceneView().getScene().addOnUpdateListener(this);
@@ -76,6 +78,22 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         InfoBtn = findViewById(R.id.infoBtn);
         ProfileBtn = findViewById(R.id.ProfileBtn);
         GalleryBtn = findViewById(R.id.PhotoBtn);
+        //Button front
+        buttonPhotoFront = findViewById(R.id.btnShanpshotFront);
+
+        buttonPhotoFront.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                pushButtonFront();
+            }
+            private void pushButtonFront() {
+                Toast.makeText(getBaseContext(),"BUTTON front camera",Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(CustomArActivity.this, FrontArActivity.class));
+                // saveToInternalStorage();
+            }
+
+
+        });
 
         InfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -125,23 +143,17 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
     //Create database augmented image
   /*  public boolean setupAugmentedImageDb(Config config, Session session){
         AugmentedImageDatabase augmentedImageDatabase;
-
         Bitmap bitmap = loadAugmentedImage();
-
         if (bitmap == null){
             return  false;
         }
-
         augmentedImageDatabase = new AugmentedImageDatabase(session);
         augmentedImageDatabase.addImage("bobsponjajr", bitmap);
-
         config.setAugmentedImageDatabase(augmentedImageDatabase);
         return true;
     }
-
-
 */
-  //Other youtube mulyiple imag
+    //Other youtube mulyiple imag
 /*  private boolean buildDatabase(Config config, Session session){
       AugmentedImageDatabase augmentedImageDatabase;
       try {
@@ -159,23 +171,17 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
 /*
     private void onUpdateFrame(FrameTime frameTime){
             Frame frame = arFragment.getArSceneView().getArFrame();
-
             Collection<AugmentedImage> augmentedImages = frame.getUpdatedTrackables(AugmentedImage.class);
-
             for (AugmentedImage augmentedImage : augmentedImages){
-
                 if (augmentedImage.getTrackingState() == TrackingState.TRACKING){
-
                     if (augmentedImage.getName().equals("bobsponjajr") && shouldAddModel){
                         placeObject(arFragment,
                                 augmentedImage.createAnchor(augmentedImage.getCenterPose()),
                                 Uri.parse("bob_young_V101.sfb"));
                         shouldAddModel = false;
                     }
-
                 }
             }
-
     }
 */
 
@@ -195,7 +201,6 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
                     return null;
                 }));
     }
-
     private void addNodeToScene(ArFragment fragment, Anchor anchor, Renderable renderable){
         AnchorNode anchorNode = new AnchorNode(anchor);
         TransformableNode node = new TransformableNode(fragment.getTransformationSystem());
@@ -211,46 +216,42 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
 
     ////////////////////////////////////////////////////////////////////////// Old Code
 
-   /* private String saveToInternalStorage(Bitmap bitmapImage){
-        ContextWrapper cw = new ContextWrapper(getApplicationContext());
-        // path to /data/data/yourapp/app_data/imageDir
-        File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-        // Create imageDir
-        File mypath=new File(directory,"profile.jpg");
-
-        FileOutputStream fos = null;
-        try {
-            fos = new FileOutputStream(mypath);
-            // Use the compress method on the BitMap object to write image to the OutputStream
-            bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                fos.close();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        return directory.getAbsolutePath();
-    }
-
-    private void readInternalStorageloadImageFromStorage(String path)
-    {
-
-        try {
-            File f=new File(path, "profile.jpg");
-            Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-            ImageView img=(ImageView)findViewById(R.id.imgPicker);
-            img.setImageBitmap(b);
-        }
-        catch (FileNotFoundException e)
-        {
-            e.printStackTrace();
-        }
-
-    }
-*/
+    /* private String saveToInternalStorage(Bitmap bitmapImage){
+         ContextWrapper cw = new ContextWrapper(getApplicationContext());
+         // path to /data/data/yourapp/app_data/imageDir
+         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
+         // Create imageDir
+         File mypath=new File(directory,"profile.jpg");
+         FileOutputStream fos = null;
+         try {
+             fos = new FileOutputStream(mypath);
+             // Use the compress method on the BitMap object to write image to the OutputStream
+             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
+         } catch (Exception e) {
+             e.printStackTrace();
+         } finally {
+             try {
+                 fos.close();
+             } catch (IOException e) {
+                 e.printStackTrace();
+             }
+         }
+         return directory.getAbsolutePath();
+     }
+     private void readInternalStorageloadImageFromStorage(String path)
+     {
+         try {
+             File f=new File(path, "profile.jpg");
+             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
+             ImageView img=(ImageView)findViewById(R.id.imgPicker);
+             img.setImageBitmap(b);
+         }
+         catch (FileNotFoundException e)
+         {
+             e.printStackTrace();
+         }
+     }
+ */
     public void setupDatabase(Config config, Session session){
         //dba config and created
         //Get resource from drawable path
@@ -287,72 +288,63 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         for (AugmentedImage image : images) {
 
             if (image.getTrackingState() == TrackingState.TRACKING) {
-                    //Create Bob Sponja
-                  if (image.getName().equals("bobsponjajr") && shouldAddModel){
-                        placeObject(arFragment,
-                                image.createAnchor(image.getCenterPose()),
-                                Uri.parse("bob_young_V101.sfb"));
-                        shouldAddModel = false;
+                //Create Bob Sponja
+                if (image.getName().equals("bobsponjajr") && shouldAddModel){
+                    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));
+                    shouldAddModel = false;
 
                     //Create Calamardo
                 } if (image.getName().equals("calamardojr") && shouldAddModel) {
-                        placeObject(arFragment,
-                                image.createAnchor(image.getCenterPose()),
-                                Uri.parse("squidward_young_V083.sfb"));
-                        shouldAddModel = false;
+                    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("squidward_young_V083.sfb"));
+                    shouldAddModel = false;
 
                     //Create Patricio
                 } if (image.getName().equals("patriciojr") && shouldAddModel) {
-                            placeObject(arFragment,
-                                    image.createAnchor(image.getCenterPose()),
-                                    Uri.parse("patrick_young_V069.sfb"));
-                            shouldAddModel = false;
+                    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("patrick_young_V069.sfb"));
+                    shouldAddModel = false;
 
                     //Create Don cangrejo
                 } if (image.getName().equals("donconcangrejojr") && shouldAddModel) {
-                            placeObject(arFragment,
-                                    image.createAnchor(image.getCenterPose()),
-                                    Uri.parse("MrKrabs_valid.sfb"));
-                            shouldAddModel = false;
+                    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("MrKrabs_valid.sfb"));
+                    shouldAddModel = false;
                 }
             }
         }
     }
 
   /*  private void createModelFox(Anchor anchor){
-
         ModelRenderable.builder()
                 .setSource(this, Uri.parse("ArcticFox_Posed.sfb"))
                 .build()
                 .thenAccept(modelRenderable -> placeModel(modelRenderable, anchor));
     }
-
     private void createModelBob(Anchor anchor){
-
         ModelRenderable.builder()
                 .setSource(this, Uri.parse("bob_young_V101.sfb"))
                 .build()
                 .thenAccept(modelRenderable -> placeModel(modelRenderable, anchor));
     }
-
     private void createModelDonCangrejo(Anchor anchor){
-
         ModelRenderable.builder()
                 .setSource(this, Uri.parse("MrKrabs_valid.sfb"))
                 .build()
                 .thenAccept(modelRenderable -> placeModel(modelRenderable, anchor));
     }
-
     private void createModelCalamardo(Anchor anchor){
-
         ModelRenderable.builder()
                 .setSource(this, Uri.parse("squidward_young_V083.sfb"))
                 .build()
                 .thenAccept(modelRenderable -> placeModel(modelRenderable, anchor));
     }
-
     private void createModelPatricio(Anchor anchor){
-
         ModelRenderable.builder()
                 .setSource(this, Uri.parse("patrick_young_V069.sfb"))
                 .build()
@@ -361,8 +353,6 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
 */
 /*
     private void placeModel(ModelRenderable modelRenderable, Anchor anchor) {
-
-
         AnchorNode anchorNode = new AnchorNode(anchor);
         anchorNode.setRenderable(modelRenderable);
         arFragment.getArSceneView().getScene().addChild(anchorNode);
@@ -421,12 +411,12 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
                     return;
                 }
                 Toast.makeText(getBaseContext(),"Screenshot saved in /Pictures/Screenshots",Toast.LENGTH_SHORT).show();
-             //   SnackbarUtility.showSnackbarTypeLong(settingsButton, "Screenshot saved in /Pictures/Screenshots");
+                //   SnackbarUtility.showSnackbarTypeLong(settingsButton, "Screenshot saved in /Pictures/Screenshots");
 
             } else {
 
                 Toast.makeText(getBaseContext(),"Failed to take screenshot",Toast.LENGTH_SHORT).show();
-              //  SnackbarUtility.showSnackbarTypeLong(settingsButton, "Failed to take screenshot");
+                //  SnackbarUtility.showSnackbarTypeLong(settingsButton, "Failed to take screenshot");
 
             }
             handlerThread.quitSafely();
@@ -436,7 +426,7 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
 
     public void saveBitmapToDisk(Bitmap bitmap) throws IOException {
 
-       // String path = Environment.getExternalStorageDirectory().toString() +  "/Pictures/Screenshots/";
+        // String path = Environment.getExternalStorageDirectory().toString() +  "/Pictures/Screenshots/";
 
         File videoDirectory = null;
         if (videoDirectory == null) {

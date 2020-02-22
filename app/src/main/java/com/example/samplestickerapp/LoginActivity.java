@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.telecom.Call;
 import android.text.InputType;
 import android.util.Patterns;
 import android.view.View;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -31,6 +33,18 @@ import com.facebook.FacebookSdk;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;*/
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -51,11 +65,13 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import org.json.JSONException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.HashMap;
 
@@ -68,7 +84,11 @@ public class LoginActivity extends AppCompatActivity {
     TextView notHaveAccntTv , RecoverAccount;
     Button mLoginBtn;
     SignInButton mGoogleLoginBtn;
-/*
+    LoginButton mFaceloginButton;
+    private CallbackManager callbackManager;
+    private AccessTokenTracker accessTokenTracker;
+    private ProfileTracker profileTracker;
+    /*
     LoginButton FacebookBtn;
 */
 
@@ -86,7 +106,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        //Facebook sdk
+        FacebookSdk.sdkInitialize(getApplicationContext());
         getSupportActionBar().hide();
 
       /*  //Actionbar and its title
@@ -128,9 +149,54 @@ public class LoginActivity extends AppCompatActivity {
         mLoginBtn = findViewById(R.id.loginBtn);
         RecoverAccount = findViewById(R.id.RecoverAccount);
         mGoogleLoginBtn = findViewById(R.id.googleLoginBtn);
-/*
-        FacebookBtn = findViewById(R.id.facebookBtn);
-*/
+        mFaceloginButton = findViewById(R.id.login_button_facebook);
+
+        //Facebook
+        callbackManager = CallbackManager.Factory.create();
+        mFaceloginButton.setReadPermissions(Arrays.asList("emaail", "public_profile"));
+        // Callback registration
+        mFaceloginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // Login Successful
+                AccessToken accessToken = loginResult.getAccessToken();
+                Profile profile = Profile.getCurrentProfile();
+                dataUsers(profile);
+                Toast.makeText(getApplicationContext(), "LOGEADO WITH FACEBOOK", Toast.LENGTH_LONG).show();
+
+                accessTokenTracker = new AccessTokenTracker() {
+                    @Override
+                    protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+
+                    }
+                };
+
+                profileTracker = new ProfileTracker() {
+                    @Override
+                    protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+
+                        dataUsers(currentProfile);
+                    }
+                };
+
+                accessTokenTracker.startTracking();
+                profileTracker.startTracking();
+
+                //References Facebook Login
+                mFaceloginButton.setReadPermissions("user_friends");
+                mFaceloginButton.setReadPermissions("public_profile");
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });
 
 
 
@@ -395,6 +461,14 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume(){
+        super.onResume();
+
+        Profile profile = Profile.getCurrentProfile();
+        dataUsers(profile);
+    }
+
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
@@ -411,6 +485,8 @@ public class LoginActivity extends AppCompatActivity {
                 // ...
             }
         }
+
+        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
@@ -484,5 +560,53 @@ public class LoginActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    //Access token tracker for facebook
+ /*   AccessTokenTracker tokenTracker = new AccessTokenTracker() {
+        @Override
+        protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
+
+        }
+    };*/
+
+/*
+    private void loadUserProfile(AccessToken newAccessToken){
+        GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
+            @Override
+            public void onCompleted(org.json.JSONObject object, GraphResponse response) {
+                try{
+                    String first_name = object.getString("first_name");
+                    String last_name = object.getString("last_name");
+                    String email = object.getString("email");
+                    String id = object.getString("id");
+
+                    String image_url ="https://graph.facebook.com/"+id+"/picture?type=normal";
+
+                    RequestOption requestOption =
+
+                } catch (JSONException e){
+                    e.printStackTrace();
+                }
+
+
+            }
+        });
+
+        Bundle parameter = new Bundle();
+        parameter.putString("fields", "first_name, last_name, , id");
+        request.setParameters(parameter);
+        request.executeAsync();
+    }
+*/
+
+
+private void dataUsers(Profile profile){
+
+    if( profile != null ){
+        String name = profile.getName();
+        Toast.makeText(getApplicationContext(), "LOGEADO WITH PROFILE", Toast.LENGTH_LONG).show();
+    }
+
+}
 
 }

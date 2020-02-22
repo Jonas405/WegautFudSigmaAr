@@ -57,6 +57,7 @@ public class StickerPackListAdapter extends RecyclerView.Adapter<StickerPackList
         viewHolder.filesizeView.setText(Formatter.formatShortFileSize(context, pack.getTotalSize()));
 
         viewHolder.titleView.setText(pack.name);
+
         viewHolder.container.setOnClickListener(view -> {
             Intent intent = new Intent(view.getContext(), StickerPackDetailsActivity.class);
             intent.putExtra(StickerPackDetailsActivity.EXTRA_SHOW_UP_BUTTON, true);

@@ -81,18 +81,6 @@
         {
           "image_file": "medusas.webp",
           "emojis": ["🌈","😜"]
-        },
-        {
-          "image_file": "robot1.webp",
-          "emojis": ["💻","😩"]
-        },
-        {
-          "image_file": "teamboat1.webp",
-          "emojis": ["😡","😤"]
-        },
-        {
-          "image_file": "teamboat2.webp",
-          "emojis": ["😩","😨"]
         }
       ]
     }

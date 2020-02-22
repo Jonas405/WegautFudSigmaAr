@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context="com.example.samplestickerapp.intrucctions"
     android:background="@color/colorAccent"
-
     >
 
     <ImageView
@@ -17,7 +16,6 @@
         android:src="@drawable/iconarrowleft"
         android:layout_margin="15sp"
         />
-
 
     <GridLayout
         android:layout_width="match_parent"
@@ -55,7 +53,6 @@
             android:src="@drawable/imagetutorial"
             android:layout_columnWeight="1"
             />
-
 
     </GridLayout>
 

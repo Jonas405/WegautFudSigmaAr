@@ -110,18 +110,13 @@
     </com.google.android.material.appbar.AppBarLayout>
 
 
-    <!--<Button
-        android:id="@+id/arActivityImage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Go to discovery"/>
     <Button
-        android:id="@+id/JSONbtn"
+        android:id="@+id/btnStickerCapture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Generate JSON"/>-->
+        android:text="Go to discovery Sticker"/>
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

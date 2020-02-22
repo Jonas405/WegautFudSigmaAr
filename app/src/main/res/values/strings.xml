@@ -4,9 +4,11 @@
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="tab_text_1">Stickers</string>
     <string name="tab_text_2">Coleccion</string>
+    <string name="facebook_app_id">500303080922569</string> <string name="fb_login_protocol_scheme">fb500303080922569</string>
+
 
     <!-- This is the app's name, translators please do not translate and put in the same text as English version. Developers can consider putting in their own translation, this string must be changed before publishing -->
-    <string name="app_name">WhatsAppSampleStickerApp</string>
+    <string name="app_name">FudSnaxNick</string>
     <!-- Content description for the sticker pack tray image -->
     <string name="tray_image_content_description">Sticker Pack Tray Image</string>
     <!-- the title of info button in the menu that takes the user to more information about that pack showing publisher website and so on -->
@@ -45,7 +47,4 @@
     <!-- Toast text when we could not take user to play store because they don't have Google Play app installed -->
     <string name="cannot_find_play_store">Google Play is not installed on the device.</string>
 
-
-
-    <string name="facebook_app_id">191924982152817</string> <string name="fb_login_protocol_scheme">fb191924982152817</string>
 </resources>

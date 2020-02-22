@@ -101,6 +101,7 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
 
 
 
+    Button goSticker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +117,7 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
         ProgressBar progressBar = findViewById(R.id.progressbar);
         signOutBtn = findViewById(R.id.signOutBtn);
         goBackAR = findViewById(R.id.goBackAR);
-
+        goSticker = findViewById(R.id.btnStickerCapture);
 
         //handle firebase auth init
         firebaseAuth = FirebaseAuth.getInstance();
@@ -125,16 +126,11 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
 
         Folder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
         getSupportActionBar().hide();
-        //button Ar
-        //Go to Ar Activity when is push
-
 
         profile_image = findViewById(R.id.profile_image);
         addButton = findViewById(R.id.add_to_whatsapp_button);
         alreadyAddedText = findViewById(R.id.already_added_text);
         layoutManager = new GridLayoutManager(this, 1);
-
-
 
         recyclerView = findViewById(R.id.sticker_list);
         recyclerView.setLayoutManager(layoutManager);
@@ -159,8 +155,6 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
 
         CheckProfileImage();
 
-
-
         signOutBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -176,12 +170,7 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
                 startActivity(new Intent(StickerPackDetailsActivity.this, CustomArActivity.class));
             }
         });
-
     }
-
-
-
-
 
     private void CheckProfileImage() {
         user = firebaseAuth.getCurrentUser();
