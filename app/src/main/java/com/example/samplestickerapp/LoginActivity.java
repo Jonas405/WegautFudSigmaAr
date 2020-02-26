@@ -94,7 +94,8 @@ public class LoginActivity extends AppCompatActivity {
 
     //Declare an instance of FirebaseAuth
     FirebaseAuth mAuth;
-
+    private FirebaseAuth firebaseAuth;
+    private FirebaseAuth.AuthStateListener firebaseAuthListener;
     //progress dialog
     ProgressDialog pd;
 
@@ -153,7 +154,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //Facebook
         callbackManager = CallbackManager.Factory.create();
-        mFaceloginButton.setReadPermissions(Arrays.asList("emaail", "public_profile"));
+        mFaceloginButton.setReadPermissions(Arrays.asList("email", "public_profile"));
         // Callback registration
         mFaceloginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -162,7 +163,15 @@ public class LoginActivity extends AppCompatActivity {
                 AccessToken accessToken = loginResult.getAccessToken();
                 Profile profile = Profile.getCurrentProfile();
                 dataUsers(profile);
+                handleFacebookAccessToken(loginResult.getAccessToken());
                 Toast.makeText(getApplicationContext(), "LOGEADO WITH FACEBOOK", Toast.LENGTH_LONG).show();
+
+
+                startActivity(new Intent(LoginActivity.this, EntryActivity.class));
+
+
+
+
 
                 accessTokenTracker = new AccessTokenTracker() {
                     @Override
@@ -198,6 +207,16 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        firebaseAuth = FirebaseAuth.getInstance();
+        firebaseAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                FirebaseUser user = firebaseAuth.getCurrentUser();
+                if (user != null) {
+                    goMainScreen();
+                }
+            }
+        };
 
 
 /*
@@ -306,6 +325,20 @@ public class LoginActivity extends AppCompatActivity {
         //init
         pd = new ProgressDialog(this);
         pd.setMessage("Loggin In...");
+    }
+
+    private void handleFacebookAccessToken(AccessToken accessToken) {
+
+
+        AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
+        firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (!task.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(),"LOGIN OK", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     public class CrunchifyJSONFileWrite {
@@ -608,5 +641,23 @@ private void dataUsers(Profile profile){
     }
 
 }
+
+    private void goMainScreen() {
+        Intent intent = new Intent(this, EntryActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        firebaseAuth.addAuthStateListener(firebaseAuthListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        firebaseAuth.removeAuthStateListener(firebaseAuthListener);
+    }
 
 }

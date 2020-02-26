@@ -4,7 +4,8 @@
     <string name="title_activity_profile">ProfileActivity</string>
     <string name="tab_text_1">Stickers</string>
     <string name="tab_text_2">Coleccion</string>
-    <string name="facebook_app_id">500303080922569</string> <string name="fb_login_protocol_scheme">fb500303080922569</string>
+    <string name="facebook_app_id">482020635805537</string>
+    <string name="fb_login_protocol_scheme">fb482020635805537</string>
 
 
     <!-- This is the app's name, translators please do not translate and put in the same text as English version. Developers can consider putting in their own translation, this string must be changed before publishing -->

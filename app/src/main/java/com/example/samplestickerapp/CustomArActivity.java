@@ -1,25 +1,33 @@
 package com.example.samplestickerapp;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Camera;
+import android.graphics.Color;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.PixelCopy;
 import android.view.View;
+import android.view.contentcapture.ContentCaptureSession;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import com.google.ar.core.Anchor;
 import com.google.ar.core.AugmentedImage;
@@ -38,9 +46,11 @@ import com.google.ar.sceneform.ux.ArFragment;
 import com.google.ar.sceneform.ux.TransformableNode;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
@@ -50,7 +60,20 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
 
     private CustomArFragment arFragment;
     private boolean shouldAddModel = true;
-    ImageView buttonPhoto, buttonPhotoFront, InfoBtn, ProfileBtn, GalleryBtn;
+    ImageView buttonPhoto;
+    ImageView buttonPhotoFront;
+    ImageView InfoBtn;
+    ImageView ProfileBtn;
+    ImageView GalleryBtn;
+
+    ImageView logoFud;
+    ImageView logoBob;
+
+
+
+    //Add preview screenshot
+    private View main;
+    private ImageView imageViewPreview;
 
 
 
@@ -58,26 +81,33 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
-        Log.d("Entro a la clase en el onCreate", "Entro a la clase en el onCreate");
         //Scene AR
         setContentView(R.layout.activity_custom_ar);
         arFragment = (CustomArFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
 
         //New code
         arFragment.getPlaneDiscoveryController().hide();
-        // New Code method setOn new method addOn
-        // arFragment.getArSceneView().getScene().addOnUpdateListener(this::onUpdateFrame);
-
-        //
 
         //Old Code (comment below)
         arFragment.getArSceneView().getScene().addOnUpdateListener(this);
+
+        //Screenshot preview
+        main = findViewById(R.id.main);
+        imageViewPreview = (ImageView) findViewById(R.id.imageViewPreview);
+
+        //Fragment and logo
+
+        ImageView bobSponjaLogo = findViewById(R.id.logoBobFragment);
+        ImageView fudLogo = findViewById(R.id.logoFudFragment);
 
         //ButtonPhoto
         buttonPhoto = findViewById(R.id.btnShanpshot);
         InfoBtn = findViewById(R.id.infoBtn);
         ProfileBtn = findViewById(R.id.ProfileBtn);
-        GalleryBtn = findViewById(R.id.PhotoBtn);
+        GalleryBtn = findViewById(R.id.PhotoBtnGallery);
+
+
+
         //Button front
         buttonPhotoFront = findViewById(R.id.btnShanpshotFront);
 
@@ -87,11 +117,11 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
                 pushButtonFront();
             }
             private void pushButtonFront() {
-                Toast.makeText(getBaseContext(),"BUTTON front camera",Toast.LENGTH_SHORT).show();
-                startActivity(new Intent(CustomArActivity.this, FrontArActivity.class));
-                // saveToInternalStorage();
-            }
 
+                Intent myIntent = new Intent(CustomArActivity.this, FrontArActivity.class);
+                myIntent.putExtra("marco","marco2");
+                startActivity(myIntent);
+            }
 
         });
 
@@ -108,9 +138,23 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
                 pushButton();
             }
             private void pushButton() {
-                takePhoto();
+
+        //        Bitmap b = Screenshot.takeScreenshotOfRootView(imageViewPreview);
+        //        imageViewPreview.setImageBitmap(b);
+        //        main.setBackgroundColor(Color.parseColor("#999999"));
+                 takePhoto();
+
                 // saveToInternalStorage();
-                Toast.makeText(getBaseContext(),"BUTTON",Toast.LENGTH_SHORT).show();
+              // Below rootView for all screenshot
+  //              View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+  //              Bitmap bitmap = getScreenShot(rootView);
+  //              store(bitmap, "ScreenShot.png");
+
+         //       tackeAndSaveScreenShot(CustomArActivity.this);
+                Toast.makeText(getBaseContext(),"BUTTON Screen",Toast.LENGTH_SHORT).show();
+
+                // Here we put the screem view
+
             }
 
 
@@ -130,7 +174,7 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
             public void onClick(View v) {
                 Intent intent = new Intent();
                 intent.setAction(android.content.Intent.ACTION_VIEW);
-                intent.setType("image/*");
+                intent.setType("Images/");
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             }
@@ -259,7 +303,7 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         Bitmap calamardoJrBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.calamardojr);
         Bitmap patricioJrBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.patriciojr);
         Bitmap donconcangrejoJrBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.doncangrejojr);
-
+        Bitmap arenita2Bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.arenita2);
         //Create new image database and start session
         AugmentedImageDatabase aid = new AugmentedImageDatabase(session);
 
@@ -268,6 +312,7 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         aid.addImage("calamardojr",calamardoJrBitmap);
         aid.addImage("patriciojr",patricioJrBitmap);
         aid.addImage("doncagrejojr",donconcangrejoJrBitmap);
+        aid.addImage("arenita2",arenita2Bitmap);
 
         //Set configuration in the dba
         config.setAugmentedImageDatabase(aid);
@@ -315,6 +360,11 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
                             image.createAnchor(image.getCenterPose()),
                             Uri.parse("MrKrabs_valid.sfb"));
                     shouldAddModel = false;
+                } if (image.getName().equals("arenita2") && shouldAddModel) {
+                    Intent myIntent = new Intent(CustomArActivity.this, FrontArActivity.class);
+                    myIntent.putExtra("marco","marco5");
+                    startActivity(myIntent);
+
                 }
             }
         }
@@ -376,12 +426,14 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
                 }));
     }
 
-    private void addNodeToScene(ArFragment fragment, Anchor anchor, Renderable renderable){
+    private void addNodeToScene(ArFragment fragment, Anchor anchor,Renderable renderable){
         Log.d("Construyendo", "Construyendo Nodo");
         AnchorNode anchorNode = new AnchorNode(anchor);
         TransformableNode node = new TransformableNode(fragment.getTransformationSystem());
         node.setRenderable(renderable);
         node.setParent(anchorNode);
+        node.setParent(anchorNode);
+
         fragment.getArSceneView().getScene().addChild(anchorNode);
 
     }
@@ -391,6 +443,8 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
     private void takePhoto() {
 
         ArSceneView view = arFragment.getArSceneView();
+
+      //  CustomArFragment view = (CustomArFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
 
         // Create a bitmap the size of the scene view.
         final Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(),
@@ -404,6 +458,19 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
             if (copyResult == PixelCopy.SUCCESS) {
                 try {
                     saveBitmapToDisk(bitmap);
+          /*          File file = new File(CustomArActivity.this.getExternalCacheDir(),"myImage.png");
+                    FileOutputStream fOut = new FileOutputStream(file);
+                    bitmap.compress(Bitmap.CompressFormat.PNG,80,fOut);
+                    fOut.flush();
+                    fOut.close();
+                    file.setReadable(true,false);
+                    //Share intent
+                    Intent intent = new Intent(Intent.ACTION_SEND);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+                    intent.setType("image/*");
+                    startActivity(Intent.createChooser(intent,"Share Image via"));*/
+
                 } catch (IOException e) {
                     Toast toast = Toast.makeText(CustomArActivity.this, e.toString(),
                             Toast.LENGTH_LONG);
@@ -421,6 +488,8 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
             }
             handlerThread.quitSafely();
         }, new Handler(handlerThread.getLooper()));
+
+
     }
 
 
@@ -447,5 +516,83 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         fileOutputStream.flush();
         fileOutputStream.close();
     }
+
+
+    //Screenshot function
+    //get screen shot of the app
+    public static Bitmap getScreenShot(View view){
+        View screemView = view.getRootView();
+        screemView.setDrawingCacheEnabled(true);
+        Bitmap bitmap = Bitmap.createBitmap(screemView.getDrawingCache());
+        screemView.setDrawingCacheEnabled(false);
+        return bitmap;
+    }
+
+    //Store the image on the device
+    public void store(Bitmap bm, String fileName){
+        String dirPath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MyFudFiles";
+        File dir = new File(dirPath);
+        if (!dir.exists()){
+            dir.mkdirs();
+        }
+        File file = new File(dirPath,fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(file);
+            bm.compress(Bitmap.CompressFormat.PNG, 100, fos);
+            fos.flush();
+            fos.close();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this,"Error", Toast.LENGTH_LONG);
+        }
+    }
+
+
+    //------------------------------- Button -------------------------------------
+
+    public void tackeAndSaveScreenShot(Activity mActivity) {
+
+
+        View MainView = mActivity.getWindow().getDecorView();
+        MainView.setDrawingCacheEnabled(true);
+        MainView.buildDrawingCache();
+        Bitmap MainBitmap = MainView.getDrawingCache();
+        Rect frame = new Rect();
+
+        mActivity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+        //to remove statusBar from the taken sc
+        int statusBarHeight = frame.top;
+        //using screen size to create bitmap
+        int width = mActivity.getWindowManager().getDefaultDisplay().getWidth();
+        int height = mActivity.getWindowManager().getDefaultDisplay().getHeight();
+        Bitmap OutBitmap = Bitmap.createBitmap(MainBitmap, 0, statusBarHeight, width, height - statusBarHeight);
+        MainView.destroyDrawingCache();
+        try {
+
+            String path = Environment.getExternalStorageDirectory().toString();
+            OutputStream fOut = null;
+            //you can also using current time to generate name
+            String name="YourName";
+            File file = new File(path, name + ".png");
+            fOut = new FileOutputStream(file);
+
+            OutBitmap.compress(Bitmap.CompressFormat.PNG, 90, fOut);
+            fOut.flush();
+            fOut.close();
+
+            //this line will add the saved picture to gallery
+            MediaStore.Images.Media.insertImage(getContentResolver(), file.getAbsolutePath(), file.getName(), file.getName());
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+   //shared image
+
+
 
 }

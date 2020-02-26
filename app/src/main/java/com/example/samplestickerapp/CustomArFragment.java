@@ -11,8 +11,10 @@ public class CustomArFragment extends ArFragment {
 
 
 
+
     @Override
     protected Config getSessionConfiguration(Session session) {
+
 
 
         getPlaneDiscoveryController().setInstructionView(null);
@@ -23,13 +25,6 @@ public class CustomArFragment extends ArFragment {
         session.configure(config);
         this.getArSceneView().setupSession(session);
 
-
-     /*   if (((CustomArActivity)getActivity()).setupAugmentedImageDb(config,session)){
-            Log.d("SetupAugImgDB", "Sucess");
-        }
-         else{
-             Log.e("SetupAugImgDB", "Failed to setup db");
-        }*/
 
         this.getArSceneView().setupSession(session);
         ((CustomArActivity) getActivity()).setupDatabase(config,session);

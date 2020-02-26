@@ -5,13 +5,34 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/main"
     tools:context=".CustomArActivity">
 
     <fragment
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:id="@+id/fragment"
-        android:name="com.example.samplestickerapp.CustomArFragment"/>
+        android:name="com.example.samplestickerapp.CustomArFragment">
+
+        <ImageView
+            android:id="@+id/logoFudFragment"
+            android:layout_width="80sp"
+            android:layout_height="50sp"
+            android:layout_margin="20sp"
+            android:src="@drawable/fudlogo"
+            />
+
+        <ImageView
+            android:id="@+id/logoBobFragment"
+            android:layout_width="90sp"
+            android:layout_height="60sp"
+            android:src="@drawable/spongeboblogo"
+            android:layout_gravity="end"
+            android:layout_margin="20sp"
+            />
+    </fragment>
+
+
 
 
     <RelativeLayout
@@ -39,7 +60,7 @@
                 android:clickable="true"/>
 
             <ImageView
-                android:id="@+id/PhotoBtn"
+                android:id="@+id/PhotoBtnGallery"
                 android:layout_width="50sp"
                 android:layout_height="40sp"
                 android:layout_margin="25sp"
@@ -90,22 +111,14 @@
         />
 
     <ImageView
-        android:layout_width="80sp"
-        android:layout_height="50sp"
-        android:layout_margin="20sp"
-        android:src="@drawable/fudlogo"
+        android:id="@+id/imageViewPreview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="30dp"
+        android:scaleType="fitCenter"
         />
 
 
-
-    <ImageView
-        android:layout_width="90sp"
-        android:layout_height="60sp"
-        android:src="@drawable/spongeboblogo"
-        android:layout_gravity="end"
-        android:layout_margin="20sp"
-
-        />
 
 
 
