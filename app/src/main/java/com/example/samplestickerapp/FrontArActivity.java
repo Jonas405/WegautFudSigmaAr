@@ -1,5 +1,6 @@
 package com.example.samplestickerapp;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.view.MotionEvent;
 import android.view.PixelCopy;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +21,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -47,7 +50,7 @@ public class FrontArActivity extends AppCompatActivity {
     private boolean isAdded = false;
 
     private ImageView img;
-    ImageView buttonPhotoFront;
+    ImageView buttonPhotoFront, imageMovingB;
 
     View frameLayout;
 
@@ -58,6 +61,10 @@ public class FrontArActivity extends AppCompatActivity {
 
     private static final int REQUEST_ID = 1;
 
+    //Add parameter to moving img
+    private int xDelta;
+    private int yDelta;
+
 
 
     @Override
@@ -67,7 +74,13 @@ public class FrontArActivity extends AppCompatActivity {
 
         frameLayout = (View) findViewById(R.id.frontFrameView);
 
+
+
         imageView = findViewById(R.id.image);
+
+        //imageMoving
+        imageMovingB = findViewById(R.id.imageMoving);
+        imageMovingB.setOnTouchListener(onTouchListener());
         //ButtonPhoto
         buttonPhotoFront = findViewById(R.id.btnShanpshotFront);
         customArFrontFragment = (CustomArFrontFragment) getSupportFragmentManager().findFragmentById(R.id.arFrontFragment);
@@ -132,10 +145,10 @@ public class FrontArActivity extends AppCompatActivity {
             }
             private void pushButton() {
 
-                  //  takePhoto();
-           //     View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
-            //                  Bitmap bitmap = getScreenShot(rootView);
-              //                store(bitmap, "ScreenShot.png");
+                //  takePhoto();
+                //     View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
+                //                  Bitmap bitmap = getScreenShot(rootView);
+                //                store(bitmap, "ScreenShot.png");
 
                 ScreenshotManager.INSTANCE.requestScreenshotPermission(FrontArActivity.this, REQUEST_ID);
                 ScreenshotManager.INSTANCE.takeScreenshot(FrontArActivity.this);
@@ -191,23 +204,23 @@ public class FrontArActivity extends AppCompatActivity {
             if (copyResult == PixelCopy.SUCCESS) {
                 try {
                     saveBitmapToDisk(bitmap);
-                    } catch (IOException e) {
-                        Toast toast = Toast.makeText(FrontArActivity.this, e.toString(),
-                                Toast.LENGTH_LONG);
-                        toast.show();
-                        return;
-                    }
-                    Toast.makeText(getBaseContext(),"Screenshot saved in /Pictures/Screenshots",Toast.LENGTH_SHORT).show();
-                    //   SnackbarUtility.showSnackbarTypeLong(settingsButton, "Screenshot saved in /Pictures/Screenshots");
-
-                } else {
-
-                    Toast.makeText(getBaseContext(),"Failed to take screenshot",Toast.LENGTH_SHORT).show();
-                    //  SnackbarUtility.showSnackbarTypeLong(settingsButton, "Failed to take screenshot");
-
+                } catch (IOException e) {
+                    Toast toast = Toast.makeText(FrontArActivity.this, e.toString(),
+                            Toast.LENGTH_LONG);
+                    toast.show();
+                    return;
                 }
-                handlerThread.quitSafely();
-            }, new Handler(handlerThread.getLooper()));
+                Toast.makeText(getBaseContext(),"Screenshot saved in /Pictures/Screenshots",Toast.LENGTH_SHORT).show();
+                //   SnackbarUtility.showSnackbarTypeLong(settingsButton, "Screenshot saved in /Pictures/Screenshots");
+
+            } else {
+
+                Toast.makeText(getBaseContext(),"Failed to take screenshot",Toast.LENGTH_SHORT).show();
+                //  SnackbarUtility.showSnackbarTypeLong(settingsButton, "Failed to take screenshot");
+
+            }
+            handlerThread.quitSafely();
+        }, new Handler(handlerThread.getLooper()));
 
 
     }
@@ -273,5 +286,47 @@ public class FrontArActivity extends AppCompatActivity {
     }
 
 
-}
+    private View.OnTouchListener onTouchListener() {
+        return new View.OnTouchListener() {
 
+            @SuppressLint("ClickableViewAccessibility")
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+
+                final int x = (int) event.getRawX();
+                final int y = (int) event.getRawY();
+
+                switch (event.getAction() & MotionEvent.ACTION_MASK) {
+
+                    case MotionEvent.ACTION_DOWN:
+                        FrameLayout.LayoutParams lParams = (FrameLayout.LayoutParams) view.getLayoutParams();
+
+                        xDelta = x - lParams.leftMargin;
+                        yDelta = y - lParams.topMargin;
+                        break;
+
+                    case MotionEvent.ACTION_UP:
+                        Toast.makeText(FrontArActivity.this,
+                                "I'm here!", Toast.LENGTH_SHORT)
+                                .show();
+                        break;
+
+                    case MotionEvent.ACTION_MOVE:
+                        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) view
+                                .getLayoutParams();
+                        layoutParams.leftMargin = x - xDelta;
+                        layoutParams.topMargin = y - yDelta;
+                        layoutParams.rightMargin = 0;
+                        layoutParams.bottomMargin = 0;
+                        view.setLayoutParams(layoutParams);
+                        break;
+                }
+
+                frameLayout.invalidate();
+                return true;
+            }
+        };
+    }
+
+
+}
