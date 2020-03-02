@@ -1,6 +1,7 @@
 package com.example.samplestickerapp;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
@@ -8,24 +9,37 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Camera;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.hardware.display.DisplayManager;
+import android.hardware.display.VirtualDisplay;
 import android.media.Image;
+import android.media.ImageReader;
+import android.media.projection.MediaProjection;
+import android.media.projection.MediaProjectionManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.Display;
 import android.view.PixelCopy;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.contentcapture.ContentCaptureSession;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.UiThread;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -52,6 +66,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.ByteBuffer;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collection;
@@ -140,19 +155,55 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         buttonPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pushButton();
+                try {
+                    pushButton();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-            private void pushButton() {
+            private void pushButton() throws IOException {
 
         //        Bitmap b = Screenshot.takeScreenshotOfRootView(imageViewPreview);
         //        imageViewPreview.setImageBitmap(b);
         //        main.setBackgroundColor(Color.parseColor("#999999"));
               //   takePhoto();
 
-                buttonPhoto.setVisibility(View.INVISIBLE);
-                menuBar.setVisibility(View.INVISIBLE);
+             //   buttonPhoto.setVisibility(View.INVISIBLE);
+             //   menuBar.setVisibility(View.INVISIBLE);
+
+
+
+
                 ScreenshotManager.INSTANCE.requestScreenshotPermission(CustomArActivity.this, REQUEST_ID);
                 ScreenshotManager.INSTANCE.takeScreenshot(CustomArActivity.this);
+           //     ScreenshotManager.INSTANCE.shareToSocialMedia(CustomArActivity.this);
+
+
+            //    File file = new File(CustomArActivity.this.getExternalCacheDir(), "images");
+           //     mediaFile.setReadable(true,false);
+                //Sharing intent
+            //    Intent intent = new Intent(Intent.ACTION_SEND);
+            //    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            //    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+            //    intent.setType("image/*");
+            //    startActivity(Intent.createChooser(intent, "Share"));
+
+
+
+
+       /*         Uri uri = Uri.fromFile(file);
+                Intent intent = new Intent();
+                intent.setAction(Intent.ACTION_SEND);
+                intent.setType("image/*");
+
+                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
+                intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
+                intent.putExtra(Intent.EXTRA_STREAM, uri);
+                try {
+                    startActivity(Intent.createChooser(intent, "Share Screenshot"));
+                } catch (ActivityNotFoundException e) {
+                    Toast.makeText(CustomArActivity.this, "No App Available", Toast.LENGTH_SHORT).show();
+                }*/
                 // saveToInternalStorage();
               // Below rootView for all screenshot
   //              View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
@@ -160,10 +211,11 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
   //              store(bitmap, "ScreenShot.png");
 
          //       tackeAndSaveScreenShot(CustomArActivity.this);
-                Toast.makeText(getBaseContext(),"BUTTON Screen",Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(getBaseContext(),"BUTTON Screen",Toast.LENGTH_SHORT).show();
 
-                menuBar.setVisibility(View.VISIBLE);
-                buttonPhoto.setVisibility(View.VISIBLE);
+
+             //   menuBar.setVisibility(View.VISIBLE);
+             //   buttonPhoto.setVisibility(View.VISIBLE);
                 // Here we put the screem view
 
             }
@@ -610,6 +662,5 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         if (requestCode == REQUEST_ID)
             ScreenshotManager.INSTANCE.onActivityResult(resultCode, data);
     }
-
 
 }
