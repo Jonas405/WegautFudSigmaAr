@@ -33,4 +33,11 @@
         android:layout_gravity="center_horizontal"
         />
 
+    <ImageView
+        android:id="@+id/imageMoving"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        android:contentDescription="@string/app_name"
+        android:src="@drawable/arenita2" />
+
 </FrameLayout>

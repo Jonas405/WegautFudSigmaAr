@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.telecom.Call;
 import android.text.InputType;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -164,8 +165,11 @@ public class LoginActivity extends AppCompatActivity {
                 Profile profile = Profile.getCurrentProfile();
                 dataUsers(profile);
                 handleFacebookAccessToken(loginResult.getAccessToken());
+
                 Toast.makeText(getApplicationContext(), "LOGEADO WITH FACEBOOK", Toast.LENGTH_LONG).show();
 
+                Intent myIntent = new Intent(LoginActivity.this, CustomArActivity.class);
+                startActivity(myIntent);
 
                 startActivity(new Intent(LoginActivity.this, EntryActivity.class));
 
@@ -339,51 +343,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    public class CrunchifyJSONFileWrite {
-        private FileWriter file;
-
-        @SuppressWarnings("unchecked")
-        public  void main(String[] args) {
-
-            // JSON object. Key value pairs are unordered. JSONObject supports java.util.Map interface.
-            JSONObject obj = new JSONObject();
-            obj.put("Name", "Crunchify.com");
-            obj.put("Author", "App Shah");
-
-            JSONArray company = new JSONArray();
-            company.add("Company: Facebook");
-            company.add("Company: PayPal");
-            company.add("Company: Google");
-            obj.put("Company List", company);
-            try {
-
-                // Constructs a FileWriter given a file name, using the platform's default charset
-                file = new FileWriter("/Users/Shared/crunchify.txt");
-                file.write(obj.toJSONString());
-                CrunchifyLog("Successfully Copied JSON Object to File...");
-                CrunchifyLog("\nJSON Object: " + obj);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            } finally {
-
-                try {
-                    file.flush();
-                    file.close();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        public void CrunchifyLog(String str) {
-            System.out.println("str");
-        }
-
     }
 
     private void showRecoverPasswordDialog() {
@@ -593,45 +552,6 @@ public class LoginActivity extends AppCompatActivity {
         }
         return true;
     }
-
-    //Access token tracker for facebook
- /*   AccessTokenTracker tokenTracker = new AccessTokenTracker() {
-        @Override
-        protected void onCurrentAccessTokenChanged(AccessToken oldAccessToken, AccessToken currentAccessToken) {
-
-        }
-    };*/
-
-/*
-    private void loadUserProfile(AccessToken newAccessToken){
-        GraphRequest request = GraphRequest.newMeRequest(newAccessToken, new GraphRequest.GraphJSONObjectCallback() {
-            @Override
-            public void onCompleted(org.json.JSONObject object, GraphResponse response) {
-                try{
-                    String first_name = object.getString("first_name");
-                    String last_name = object.getString("last_name");
-                    String email = object.getString("email");
-                    String id = object.getString("id");
-
-                    String image_url ="https://graph.facebook.com/"+id+"/picture?type=normal";
-
-                    RequestOption requestOption =
-
-                } catch (JSONException e){
-                    e.printStackTrace();
-                }
-
-
-            }
-        });
-
-        Bundle parameter = new Bundle();
-        parameter.putString("fields", "first_name, last_name, , id");
-        request.setParameters(parameter);
-        request.executeAsync();
-    }
-*/
-
 
 private void dataUsers(Profile profile){
 

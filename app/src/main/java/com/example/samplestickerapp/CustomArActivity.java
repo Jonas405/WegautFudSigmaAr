@@ -23,6 +23,7 @@ import android.view.View;
 import android.view.contentcapture.ContentCaptureSession;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -69,7 +70,10 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
     ImageView logoFud;
     ImageView logoBob;
 
+    android.widget.RelativeLayout menuBar;
 
+    //Screen permission request
+    private static final int REQUEST_ID = 1;
 
     //Add preview screenshot
     private View main;
@@ -105,7 +109,8 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         InfoBtn = findViewById(R.id.infoBtn);
         ProfileBtn = findViewById(R.id.ProfileBtn);
         GalleryBtn = findViewById(R.id.PhotoBtnGallery);
-
+        //menuBar
+        menuBar = findViewById(R.id.menuBar);
 
 
         //Button front
@@ -142,8 +147,12 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         //        Bitmap b = Screenshot.takeScreenshotOfRootView(imageViewPreview);
         //        imageViewPreview.setImageBitmap(b);
         //        main.setBackgroundColor(Color.parseColor("#999999"));
-                 takePhoto();
+              //   takePhoto();
 
+                buttonPhoto.setVisibility(View.INVISIBLE);
+                menuBar.setVisibility(View.INVISIBLE);
+                ScreenshotManager.INSTANCE.requestScreenshotPermission(CustomArActivity.this, REQUEST_ID);
+                ScreenshotManager.INSTANCE.takeScreenshot(CustomArActivity.this);
                 // saveToInternalStorage();
               // Below rootView for all screenshot
   //              View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
@@ -153,6 +162,8 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
          //       tackeAndSaveScreenShot(CustomArActivity.this);
                 Toast.makeText(getBaseContext(),"BUTTON Screen",Toast.LENGTH_SHORT).show();
 
+                menuBar.setVisibility(View.VISIBLE);
+                buttonPhoto.setVisibility(View.VISIBLE);
                 // Here we put the screem view
 
             }
@@ -593,6 +604,12 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
 
    //shared image
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_ID)
+            ScreenshotManager.INSTANCE.onActivityResult(resultCode, data);
+    }
 
 
 }

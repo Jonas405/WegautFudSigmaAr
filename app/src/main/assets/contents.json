@@ -15,71 +15,79 @@
       "license_agreement_website": "",
       "stickers": [
         {
-          "image_file": "arenita1.webp",
+          "image_file": "arenita1sinfondo.webp",
           "emojis": ["☕","🙂"]
         },
         {
-          "image_file": "arenita2.webp",
+          "image_file": "arenita2sinfondo.webp",
           "emojis": ["😄","😀"]
         },
         {
-          "image_file": "arenita3.webp",
+          "image_file": "arenita3sinfondo.webp",
           "emojis": ["😄","😀"]
         },
         {
-          "image_file": "bobpatricio.webp",
+          "image_file": "bob1sinfondo.webp",
+          "emojis": ["😄","😀"]
+        },
+        {
+          "image_file": "bob2sinfondo.webp",
           "emojis": ["😆","😂"]
         },
         {
-          "image_file": "bobteam1.webp",
+          "image_file": "bob3sinfondo.webp",
           "emojis": ["😩","😰"]
         },
         {
-          "image_file": "bobteam2.webp",
+          "image_file": "bob4sinfondo.webp",
           "emojis": ["😩","😰"]
         },
         {
-          "image_file": "calamardo1.webp",
+          "image_file": "bob5sinfondo.webp",
           "emojis": ["😭","💧"]
         },
         {
-          "image_file": "calamardo2.webp",
+          "image_file": "bob6sinfondo.webp",
           "emojis": ["😍","♥"]
         },
         {
-          "image_file": "calamardo3.webp",
+          "image_file": "bobsinfondo.webp",
           "emojis": ["💔","👎"]
         },
         {
-          "image_file": "cangrejo1.webp",
+          "image_file": "calamardo1sinfondo.webp",
           "emojis": ["😍","💑"]
         },
         {
-          "image_file": "esponja1.webp",
+          "image_file": "calamardo3sinfondo.webp",
           "emojis": ["😘","🍪"]
         },
         {
-          "image_file": "esponja2.webp",
+          "image_file": "cange2sinfondo.webp",
           "emojis": ["🤔","😐"]
         },
         {
-          "image_file": "esponja3.webp",
+          "image_file": "cangrejosinfondo.webp",
           "emojis": ["😱","😵"]
         },
         {
-          "image_file": "esponja4.webp",
+          "image_file": "garysinfondo.webp",
           "emojis": ["😡","😠"]
         },
         {
-          "image_file": "esponja5.webp",
+          "image_file": "paty2sinfondo.webp",
           "emojis": ["😡","😠"]
         },
         {
-          "image_file": "gary.webp",
+          "image_file": "paty3sinfondo.webp",
           "emojis": ["❓","🤔"]
         },
         {
-          "image_file": "medusas.webp",
+          "image_file": "paty5sinfondo.webp",
+          "emojis": ["🌈","😜"]
+        },
+        {
+          "image_file": "robotsinfondo.webp",
           "emojis": ["🌈","😜"]
         }
       ]
