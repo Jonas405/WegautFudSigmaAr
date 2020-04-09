@@ -35,6 +35,7 @@ import android.view.contentcapture.ContentCaptureSession;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -77,10 +78,13 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
     private CustomArFragment arFragment;
     private boolean shouldAddModel = true;
     ImageView buttonPhoto;
-    ImageView buttonPhotoFront;
     ImageView InfoBtn;
     ImageView ProfileBtn;
     ImageView GalleryBtn;
+
+    Button buttonFrontTest;
+
+
 
     ImageView logoFud;
     ImageView logoBob;
@@ -93,6 +97,8 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
     //Add preview screenshot
     private View main;
     private ImageView imageViewPreview;
+
+    public static final int PICK_IMAGE = 1;
 
 
 
@@ -126,24 +132,18 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         GalleryBtn = findViewById(R.id.PhotoBtnGallery);
         //menuBar
         menuBar = findViewById(R.id.menuBar);
+        //FrontButton
+        buttonFrontTest = findViewById(R.id.frontTest);
 
+        ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this,"bd_usuarios",null,1);
 
-        //Button front
-        buttonPhotoFront = findViewById(R.id.btnShanpshotFront);
-
-        buttonPhotoFront.setOnClickListener(new View.OnClickListener() {
+        buttonFrontTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                pushButtonFront();
+                startActivity(new Intent(CustomArActivity.this, FrontArActivity.class));
             }
-            private void pushButtonFront() {
-
-                Intent myIntent = new Intent(CustomArActivity.this, FrontArActivity.class);
-                myIntent.putExtra("marco","marco2");
-                startActivity(myIntent);
-            }
-
         });
+
 
         InfoBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -151,6 +151,20 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
                 startActivity(new Intent(CustomArActivity.this, intrucctions.class));
             }
         });
+
+        Runnable mRunnable;
+        Handler mHandler=new Handler();
+
+        mRunnable=new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+           //     yourLayoutObject.setVisibility(View.INVISIBLE); //If you want just hide the View. But it will retain space occupied by the View.
+                buttonPhoto.setVisibility(View.VISIBLE); //This will remove the View. and free s the space occupied by the View
+                menuBar.setVisibility(View.VISIBLE);
+            }
+        };
 
         buttonPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,60 +177,12 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
             }
             private void pushButton() throws IOException {
 
-        //        Bitmap b = Screenshot.takeScreenshotOfRootView(imageViewPreview);
-        //        imageViewPreview.setImageBitmap(b);
-        //        main.setBackgroundColor(Color.parseColor("#999999"));
-              //   takePhoto();
-
-             //   buttonPhoto.setVisibility(View.INVISIBLE);
-             //   menuBar.setVisibility(View.INVISIBLE);
-
-
-
+                buttonPhoto.setVisibility(View.GONE);
+                menuBar.setVisibility(View.GONE);
 
                 ScreenshotManager.INSTANCE.requestScreenshotPermission(CustomArActivity.this, REQUEST_ID);
                 ScreenshotManager.INSTANCE.takeScreenshot(CustomArActivity.this);
-           //     ScreenshotManager.INSTANCE.shareToSocialMedia(CustomArActivity.this);
-
-
-            //    File file = new File(CustomArActivity.this.getExternalCacheDir(), "images");
-           //     mediaFile.setReadable(true,false);
-                //Sharing intent
-            //    Intent intent = new Intent(Intent.ACTION_SEND);
-            //    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            //    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
-            //    intent.setType("image/*");
-            //    startActivity(Intent.createChooser(intent, "Share"));
-
-
-
-
-       /*         Uri uri = Uri.fromFile(file);
-                Intent intent = new Intent();
-                intent.setAction(Intent.ACTION_SEND);
-                intent.setType("image/*");
-
-                intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "");
-                intent.putExtra(android.content.Intent.EXTRA_TEXT, "");
-                intent.putExtra(Intent.EXTRA_STREAM, uri);
-                try {
-                    startActivity(Intent.createChooser(intent, "Share Screenshot"));
-                } catch (ActivityNotFoundException e) {
-                    Toast.makeText(CustomArActivity.this, "No App Available", Toast.LENGTH_SHORT).show();
-                }*/
-                // saveToInternalStorage();
-              // Below rootView for all screenshot
-  //              View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
-  //              Bitmap bitmap = getScreenShot(rootView);
-  //              store(bitmap, "ScreenShot.png");
-
-         //       tackeAndSaveScreenShot(CustomArActivity.this);
-            //    Toast.makeText(getBaseContext(),"BUTTON Screen",Toast.LENGTH_SHORT).show();
-
-
-             //   menuBar.setVisibility(View.VISIBLE);
-             //   buttonPhoto.setVisibility(View.VISIBLE);
-                // Here we put the screem view
+                mHandler.postDelayed(mRunnable,10*500);
 
             }
 
@@ -236,129 +202,14 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent();
-                intent.setAction(android.content.Intent.ACTION_VIEW);
-                intent.setType("Images/");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
+
             }
         });
     }
 
-
-    // New Code  /////////////////////////////////////////////////////////////
-
-    //Create database augmented image
-  /*  public boolean setupAugmentedImageDb(Config config, Session session){
-        AugmentedImageDatabase augmentedImageDatabase;
-        Bitmap bitmap = loadAugmentedImage();
-        if (bitmap == null){
-            return  false;
-        }
-        augmentedImageDatabase = new AugmentedImageDatabase(session);
-        augmentedImageDatabase.addImage("bobsponjajr", bitmap);
-        config.setAugmentedImageDatabase(augmentedImageDatabase);
-        return true;
-    }
-*/
-    //Other youtube mulyiple imag
-/*  private boolean buildDatabase(Config config, Session session){
-      AugmentedImageDatabase augmentedImageDatabase;
-      try {
-          InputStream inputStream = getAssets().open("AugmentedImagesFudSnax.imgdb");
-          augmentedImageDatabase = AugmentedImageDatabase.deserialize(session,inputStream);
-          config.setAugmentedImageDatabase(augmentedImageDatabase);
-          return true;
-      } catch (IOException e) {
-          e.printStackTrace();
-          return false;
-      }
-  }*/
-
-    //update the frame
-/*
-    private void onUpdateFrame(FrameTime frameTime){
-            Frame frame = arFragment.getArSceneView().getArFrame();
-            Collection<AugmentedImage> augmentedImages = frame.getUpdatedTrackables(AugmentedImage.class);
-            for (AugmentedImage augmentedImage : augmentedImages){
-                if (augmentedImage.getTrackingState() == TrackingState.TRACKING){
-                    if (augmentedImage.getName().equals("bobsponjajr") && shouldAddModel){
-                        placeObject(arFragment,
-                                augmentedImage.createAnchor(augmentedImage.getCenterPose()),
-                                Uri.parse("bob_young_V101.sfb"));
-                        shouldAddModel = false;
-                    }
-                }
-            }
-    }
-*/
-
-
- /*   // Create a node Object AR
-    private void placeObject(ArFragment fragment, Anchor anchor, Uri model){
-        ModelRenderable.builder()
-                .setSource(fragment.getContext(), model)
-                .build()
-                .thenAccept(renderable -> addNodeToScene(fragment, anchor, renderable))
-                .exceptionally((throwable -> {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    builder.setMessage(throwable.getMessage())
-                            .setTitle("Error!");
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
-                    return null;
-                }));
-    }
-    private void addNodeToScene(ArFragment fragment, Anchor anchor, Renderable renderable){
-        AnchorNode anchorNode = new AnchorNode(anchor);
-        TransformableNode node = new TransformableNode(fragment.getTransformationSystem());
-        node.setRenderable(renderable);
-        node.setParent(anchorNode);
-        fragment.getArSceneView().getScene().addChild(anchorNode);
-        node.select();
-    }
-*/
-
-
-
-
-    ////////////////////////////////////////////////////////////////////////// Old Code
-
-    /* private String saveToInternalStorage(Bitmap bitmapImage){
-         ContextWrapper cw = new ContextWrapper(getApplicationContext());
-         // path to /data/data/yourapp/app_data/imageDir
-         File directory = cw.getDir("imageDir", Context.MODE_PRIVATE);
-         // Create imageDir
-         File mypath=new File(directory,"profile.jpg");
-         FileOutputStream fos = null;
-         try {
-             fos = new FileOutputStream(mypath);
-             // Use the compress method on the BitMap object to write image to the OutputStream
-             bitmapImage.compress(Bitmap.CompressFormat.PNG, 100, fos);
-         } catch (Exception e) {
-             e.printStackTrace();
-         } finally {
-             try {
-                 fos.close();
-             } catch (IOException e) {
-                 e.printStackTrace();
-             }
-         }
-         return directory.getAbsolutePath();
-     }
-     private void readInternalStorageloadImageFromStorage(String path)
-     {
-         try {
-             File f=new File(path, "profile.jpg");
-             Bitmap b = BitmapFactory.decodeStream(new FileInputStream(f));
-             ImageView img=(ImageView)findViewById(R.id.imgPicker);
-             img.setImageBitmap(b);
-         }
-         catch (FileNotFoundException e)
-         {
-             e.printStackTrace();
-         }
-     }
- */
     public void setupDatabase(Config config, Session session){
         //dba config and created
         //Get resource from drawable path
@@ -366,16 +217,61 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         Bitmap calamardoJrBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.calamardojr);
         Bitmap patricioJrBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.patriciojr);
         Bitmap donconcangrejoJrBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.doncangrejojr);
-        Bitmap arenita2Bitmap = BitmapFactory.decodeResource(getResources(),R.drawable.arenita2);
+
+
+
+
+
+        //setup database with final images
+        //esponjas
+        Bitmap esponja1finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.esponja1finalfinal);
+        Bitmap esponja2finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.esponja2finalfinal);
+        Bitmap esponja3finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.esponja3finalfinal);
+        Bitmap esponja4finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.esponja4finalfinal);
+        Bitmap sponja5finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.sponja5finalfinal);
+        //Cangrejos
+        Bitmap cangrejo1finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.cangrejo1finalfinal);
+        //arenita
+        Bitmap arenita1finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.arenita1finalfinal);
+        Bitmap arenita2finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.arenita2finalfinal);
+        Bitmap arenita3finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.arenita3finalfinal);
+        //Bobteam
+        Bitmap bobteam1finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.bobteam1finalfinal);
+        Bitmap bobteam2finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.bobteam2finalfinal);
+        //calamardo
+        Bitmap calamardo2finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.calamardo2finalfinal);
+        Bitmap calamardo3finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.calamardo3finalfinal);
+        //Gary
+        Bitmap gary1finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.gary1finalfinal);
+        //Medusas
+        Bitmap medusas1finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.medusas1finalfinal);
+        //Robot
+        Bitmap robot1finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.robot1finalfinal);
+        //team boat
+        Bitmap teamboat1finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.teamboat1finalfinal);
+        Bitmap teambot2finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.teambot2finalfinal);
         //Create new image database and start session
         AugmentedImageDatabase aid = new AugmentedImageDatabase(session);
-
         //Add image to image db
-        aid.addImage("bobsponjajr",bobsponaJrBitmap);
-        aid.addImage("calamardojr",calamardoJrBitmap);
-        aid.addImage("patriciojr",patricioJrBitmap);
-        aid.addImage("doncagrejojr",donconcangrejoJrBitmap);
-        aid.addImage("arenita2",arenita2Bitmap);
+        aid.addImage("esponja1finalfinal",esponja1finalfinalBitmap);
+        aid.addImage("esponja2finalfinal",esponja2finalfinalBitmap);
+        aid.addImage("esponja3finalfinal",esponja3finalfinalBitmap);
+        aid.addImage("esponja4finalfinal",esponja4finalfinalBitmap);
+        aid.addImage("sponja5finalfinal",sponja5finalfinalBitmap);
+        aid.addImage("cangrejo1finalfinal",cangrejo1finalfinalBitmap);
+        aid.addImage("arenita1finalfinal",arenita1finalfinalBitmap);
+        aid.addImage("arenita2finalfinal",arenita2finalfinalBitmap);
+        aid.addImage("arenita3finalfinal",arenita3finalfinalBitmap);
+        aid.addImage("bobteam1finalfinal",bobteam1finalfinalBitmap);
+        aid.addImage("bobteam2finalfinal",bobteam2finalfinalBitmap);
+        aid.addImage("calamardo2finalfinal",calamardo2finalfinalBitmap);
+        aid.addImage("calamardo3finalfinal",calamardo3finalfinalBitmap);
+        aid.addImage("medusas1finalfinal",medusas1finalfinalBitmap);
+        aid.addImage("robot1finalfinal",robot1finalfinalBitmap);
+        aid.addImage("gary1finalfinal",gary1finalfinalBitmap);
+        aid.addImage("teamboat1finalfinal",teamboat1finalfinalBitmap);
+        aid.addImage("teambot2finalfinal",teambot2finalfinalBitmap);
+
 
         //Set configuration in the dba
         config.setAugmentedImageDatabase(aid);
@@ -397,80 +293,224 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
 
             if (image.getTrackingState() == TrackingState.TRACKING) {
                 //Create Bob Sponja
-                if (image.getName().equals("bobsponjajr") && shouldAddModel){
-                    placeObject(arFragment,
+                if (image.getName().equals("esponja1finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
                             image.createAnchor(image.getCenterPose()),
-                            Uri.parse("bob_young_V101.sfb"));
-                    shouldAddModel = false;
+                            Uri.parse("bob_young_V101.sfb"));*/
 
-                    //Create Calamardo
-                } if (image.getName().equals("calamardojr") && shouldAddModel) {
-                    placeObject(arFragment,
-                            image.createAnchor(image.getCenterPose()),
-                            Uri.parse("squidward_young_V083.sfb"));
-                    shouldAddModel = false;
-
-                    //Create Patricio
-                } if (image.getName().equals("patriciojr") && shouldAddModel) {
-                    placeObject(arFragment,
-                            image.createAnchor(image.getCenterPose()),
-                            Uri.parse("patrick_young_V069.sfb"));
-                    shouldAddModel = false;
-
-                    //Create Don cangrejo
-                } if (image.getName().equals("donconcangrejojr") && shouldAddModel) {
-                    placeObject(arFragment,
-                            image.createAnchor(image.getCenterPose()),
-                            Uri.parse("MrKrabs_valid.sfb"));
-                    shouldAddModel = false;
-                } if (image.getName().equals("arenita2") && shouldAddModel) {
-                    Intent myIntent = new Intent(CustomArActivity.this, FrontArActivity.class);
-                    myIntent.putExtra("marco","marco5");
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","esponja1finalfinal");
+                    myIntent.putExtra("marco","R.drawable.esponja1finalfinal");
                     startActivity(myIntent);
+                    shouldAddModel = false;
 
+
+                }  if (image.getName().equals("esponja2finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","esponja2finalfinal");
+                    myIntent.putExtra("marco","R.drawable.esponja2finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
+
+
+                }  if (image.getName().equals("esponja3finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","esponja3finalfinal");
+                    myIntent.putExtra("marco","R.drawable.esponja3finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
+
+
+                }  if (image.getName().equals("esponja4finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","esponja4finalfinal");
+                    myIntent.putExtra("marco","R.drawable.esponja4finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
+
+
+                }  if (image.getName().equals("sponja5finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","sponja5finalfinal");
+                    myIntent.putExtra("marco","R.drawable.sponja5finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
+
+
+                }  if (image.getName().equals("cangrejo1finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","cangrejo1finalfinal");
+                    myIntent.putExtra("marco","R.drawable.cangrejo1finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
+
+
+                }  if (image.getName().equals("arenita1finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","arenita1finalfinal");
+                    myIntent.putExtra("marco","R.drawable.arenita1finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
+
+
+                }  if (image.getName().equals("arenita2finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","arenita2finalfinal");
+                    myIntent.putExtra("marco","R.drawable.arenita2finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
+
+
+                }  if (image.getName().equals("arenita3finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","arenita3finalfinal");
+                    myIntent.putExtra("marco","R.drawable.arenita3finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
+
+
+                }  if (image.getName().equals("bobteam1finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","bobteam1finalfinal");
+                    myIntent.putExtra("marco","R.drawable.bobteam1finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
+
+
+                }  if (image.getName().equals("bobteam2finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","bobteam2finalfinal");
+                    myIntent.putExtra("marco","R.drawable.bobteam2finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
+
+
+                }  if (image.getName().equals("calamardo2finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","calamardo2finalfinal");
+                    myIntent.putExtra("marco","R.drawable.calamardo2finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
+
+
+                }  if (image.getName().equals("calamardo3finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","calamardo3finalfinal");
+                    myIntent.putExtra("marco","R.drawable.calamardo3finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
+
+
+                }  if (image.getName().equals("medusas1finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","medusas1finalfinal");
+                    myIntent.putExtra("marco","R.drawable.medusas1finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
+
+
+                }  if (image.getName().equals("robot1finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","robot1finalfinal");
+                    myIntent.putExtra("marco","R.drawable.robot1finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
+
+
+                }  if (image.getName().equals("gary1finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","gary1finalfinal");
+                    myIntent.putExtra("marco","R.drawable.gary1finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
+
+
+                }  if (image.getName().equals("teamboat1finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","teamboat1finalfinal");
+                    myIntent.putExtra("marco","R.drawable.teamboat1finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
+
+
+                }  if (image.getName().equals("teambot2finalfinal") && shouldAddModel){
+                /*    placeObject(arFragment,
+                            image.createAnchor(image.getCenterPose()),
+                            Uri.parse("bob_young_V101.sfb"));*/
+
+                    Intent myIntent = new Intent(CustomArActivity.this, UnlocketSticer.class);
+                    myIntent.putExtra("frontImage","teambot2finalfinal");
+                    myIntent.putExtra("marco","R.drawable.teambot2finalfinal");
+                    startActivity(myIntent);
+                    shouldAddModel = false;
                 }
             }
         }
     }
-
-  /*  private void createModelFox(Anchor anchor){
-        ModelRenderable.builder()
-                .setSource(this, Uri.parse("ArcticFox_Posed.sfb"))
-                .build()
-                .thenAccept(modelRenderable -> placeModel(modelRenderable, anchor));
-    }
-    private void createModelBob(Anchor anchor){
-        ModelRenderable.builder()
-                .setSource(this, Uri.parse("bob_young_V101.sfb"))
-                .build()
-                .thenAccept(modelRenderable -> placeModel(modelRenderable, anchor));
-    }
-    private void createModelDonCangrejo(Anchor anchor){
-        ModelRenderable.builder()
-                .setSource(this, Uri.parse("MrKrabs_valid.sfb"))
-                .build()
-                .thenAccept(modelRenderable -> placeModel(modelRenderable, anchor));
-    }
-    private void createModelCalamardo(Anchor anchor){
-        ModelRenderable.builder()
-                .setSource(this, Uri.parse("squidward_young_V083.sfb"))
-                .build()
-                .thenAccept(modelRenderable -> placeModel(modelRenderable, anchor));
-    }
-    private void createModelPatricio(Anchor anchor){
-        ModelRenderable.builder()
-                .setSource(this, Uri.parse("patrick_young_V069.sfb"))
-                .build()
-                .thenAccept(modelRenderable -> placeModel(modelRenderable, anchor));
-    }
-*/
-/*
-    private void placeModel(ModelRenderable modelRenderable, Anchor anchor) {
-        AnchorNode anchorNode = new AnchorNode(anchor);
-        anchorNode.setRenderable(modelRenderable);
-        arFragment.getArSceneView().getScene().addChild(anchorNode);
-    }*/
-
 
     /// Code adaptation
     private void placeObject(ArFragment fragment, Anchor anchor, Uri model){
@@ -661,6 +701,10 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_ID)
             ScreenshotManager.INSTANCE.onActivityResult(resultCode, data);
+
+        if (requestCode == PICK_IMAGE) {
+            //TODO: action
+        }
     }
 
 }

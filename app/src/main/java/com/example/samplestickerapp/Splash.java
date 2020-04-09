@@ -41,8 +41,6 @@ public class Splash extends AppCompatActivity {
         }, 2000);
     }
 
-
-
     private void checkUserStatus(){
         //get current user
         FirebaseUser user = firebaseAuth.getCurrentUser();
@@ -53,7 +51,7 @@ public class Splash extends AppCompatActivity {
         }
         else {
             //user not signed in, go to main activity
-            startActivity(new Intent(Splash.this, LoginActivity.class));
+            startActivity(new Intent(Splash.this, OnTouchFudScreen.class));
             finish();
         }
     }

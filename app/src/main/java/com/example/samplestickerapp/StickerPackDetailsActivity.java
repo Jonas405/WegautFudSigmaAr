@@ -11,6 +11,8 @@ package com.example.samplestickerapp;
 import android.app.MediaRouteButton;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,15 +21,22 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.common.net.InternetDomainName;
@@ -54,17 +63,29 @@ import org.json.simple.JSONObject;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 
 public class StickerPackDetailsActivity extends AddStickerPackActivity {
+
+
     FirebaseUser currentFirebaseUser = FirebaseAuth.getInstance().getCurrentUser() ;
     private DatabaseReference mDatabase;// ...
     private StorageReference Folder;
-    ImageView profile_image, goBackAR;
+    ImageView profile_image,goBackAR;
     private int ImageBack = 1;
     FileWriter file;
     TextView signOutBtn;
+
+    //List view sticker Collected
+    private RecyclerView recyclerViewFinal;
+    private RecyclerAdapterCollectedStickers adapterCollecter;
+    private RecyclerView.LayoutManager layoutManagerStickerCollected;
+
+
     /**
      * Do not change below values of below 3 lines as this is also used by WhatsApp
      */
@@ -80,7 +101,7 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
     public static final String EXTRA_SHOW_UP_BUTTON = "show_up_button";
     public static final String EXTRA_STICKER_PACK_DATA = "sticker_pack";
 
-    private RecyclerView recyclerView;
+  //  private RecyclerView recyclerView;
     private GridLayoutManager layoutManager;
     private StickerPreviewAdapter stickerPreviewAdapter;
     private int numColumns;
@@ -92,6 +113,8 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
     private String ProfileImage;
     String imageurl;
 
+    //RecyclerNewList
+    private RecyclerView recyclerViewNewList;
 
     //Firebase Auth
     FirebaseAuth firebaseAuth;
@@ -99,9 +122,13 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
     FirebaseDatabase firebaseDatabase;
     DatabaseReference databaseReference;
 
+    Button goFrontCamera;
 
 
-    Button goSticker;
+    ArrayList<Usuario> listaUsuario;
+    RecyclerView recyclerViewUsuarios;
+
+    ConexionSQLiteHelper conn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,9 +143,8 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
         stickerPack = getIntent().getParcelableExtra(EXTRA_STICKER_PACK_DATA);
         ProgressBar progressBar = findViewById(R.id.progressbar);
         signOutBtn = findViewById(R.id.signOutBtn);
+        goFrontCamera = findViewById(R.id.btnGoFrontPicture);
         goBackAR = findViewById(R.id.goBackAR);
-        goSticker = findViewById(R.id.btnStickerCapture);
-
         //handle firebase auth init
         firebaseAuth = FirebaseAuth.getInstance();
         firebaseDatabase = FirebaseDatabase.getInstance();
@@ -126,21 +152,112 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
 
         Folder = FirebaseStorage.getInstance().getReference().child("ImageFolder");
         getSupportActionBar().hide();
-
         profile_image = findViewById(R.id.profile_image);
         addButton = findViewById(R.id.add_to_whatsapp_button);
         alreadyAddedText = findViewById(R.id.already_added_text);
         layoutManager = new GridLayoutManager(this, 1);
+
+
+
+
+
+        //conexion sqlhelper
+        conn=new ConexionSQLiteHelper(getApplicationContext(),"bd_usuarios",null,1);
+
+        //Sticker colectados lista
+        listaUsuario=new ArrayList<>();
+        recyclerViewUsuarios= (RecyclerView) findViewById(R.id.consultarListaRecycler);
+        recyclerViewUsuarios.setLayoutManager(new GridLayoutManager(this,2));
+
+        consultarListaPersonas();
+
+        ListaPersonasAdapter adapter=new ListaPersonasAdapter(listaUsuario);
+        recyclerViewUsuarios.setAdapter(adapter);
+/*
+
+        consultarListadeSticker();
+        ArrayAdapter adaptador = new ArrayAdapter(this,android.R.layout.simple_list_item_1,listaInformacion);
+        listViewStickerColectados.setAdapter(adaptador);
+*/
+
+
+
+/*
 
         recyclerView = findViewById(R.id.sticker_list);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.getViewTreeObserver().addOnGlobalLayoutListener(pageLayoutListener);
         recyclerView.addOnScrollListener(dividerScrollListener);
         divider = findViewById(R.id.divider);
+
+
+
         if (stickerPreviewAdapter == null) {
             stickerPreviewAdapter = new StickerPreviewAdapter(getLayoutInflater(), R.drawable.sticker_error, getResources().getDimensionPixelSize(R.dimen.sticker_pack_details_image_size), getResources().getDimensionPixelSize(R.dimen.sticker_pack_details_image_padding), stickerPack);
             recyclerView.setAdapter(stickerPreviewAdapter);
         }
+*/
+
+
+
+       /* // get all data from sqlite
+            Cursor cursor = StickerPackDetailsActivity.sqLiteHelper.getData("SELECT * FROM FOOD");
+
+
+        imagesSticker =  arrayFromCursor(cursor);
+
+*/
+
+       //This is the old correct list view inside the profile with int
+    //    recyclerViewFinal = findViewById(R.id.recyclerFinalFinal);
+/*
+        layoutManagerStickerCollected = new GridLayoutManager(this,2);
+        recyclerViewFinal.setHasFixedSize(true);
+        recyclerViewFinal.setLayoutManager(layoutManagerStickerCollected);
+        adapterCollecter = new RecyclerAdapterCollectedStickers(imagesSticker);
+        recyclerViewFinal.setAdapter(adapterCollecter);
+*/
+
+       /* sqLiteHelper = new SQLiteHelper(this, "FoodDB.sqlite", null, 1);
+        sqLiteHelper.queryData("CREATE TABLE IF NOT EXISTS FOOD(Id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR, price VARCHAR, image BLOB)");
+
+
+        gridView = (GridView) findViewById(R.id.gridView);
+        listStickerCollected = new ArrayList<>();
+        adapterStickerCollected = new StickerListAdapterNew(this, R.layout.stickers_new_collected_item, listStickerCollected);
+        gridView.setAdapter(adapterStickerCollected);
+
+        //get all data from SQLITE
+
+        Cursor cursor = sqLiteHelper.getData("SELECT * FROM FOOD");
+        Toast.makeText(StickerPackDetailsActivity.this, "Stick" + cursor, Toast.LENGTH_SHORT).show();*/
+    /*    listStickerCollected.clear();
+        while (cursor.moveToNext()) {
+            int id = cursor.getInt(0);
+            String name = cursor.getString(1);
+            String price = cursor.getString(2);
+            byte[] image = cursor.getBlob(3);
+
+            listStickerCollected.add(new StickerCollectedNew(name, price, image, id));
+        }*/
+     //   adapterStickerCollected.notifyDataSetChanged();
+
+/*
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        mAdapter = new MoviesAdapter(movieList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+
+        prepareMovieData();*/
+
+
+     /*   if (stickerPreviewAdapter == null) {
+            stickerPreviewAdapter = new StickerPreviewAdapter(getLayoutInflater(), R.drawable.sticker_error, getResources().getDimensionPixelSize(R.dimen.sticker_pack_details_image_size), getResources().getDimensionPixelSize(R.dimen.sticker_pack_details_image_padding), stickerPack);
+            recyclerView.setAdapter(stickerPreviewAdapter);
+        }*/
 
         /*packNameTextView.setText(stickerPack.name);
         packPublisherTextView.setText(stickerPack.publisher);
@@ -164,13 +281,25 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
             }
         });
 
+
         goBackAR.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(StickerPackDetailsActivity.this, CustomArActivity.class));
             }
         });
+
+
+        goFrontCamera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(StickerPackDetailsActivity.this, FrontArActivity.class));
+            }
+        });
     }
+
+
+
 
     private void CheckProfileImage() {
         user = firebaseAuth.getCurrentUser();
@@ -340,12 +469,12 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
     }
 
 
-    private final ViewTreeObserver.OnGlobalLayoutListener pageLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
+/*    private final ViewTreeObserver.OnGlobalLayoutListener pageLayoutListener = new ViewTreeObserver.OnGlobalLayoutListener() {
         @Override
         public void onGlobalLayout() {
             setNumColumns(recyclerView.getWidth() / recyclerView.getContext().getResources().getDimensionPixelSize(R.dimen.sticker_pack_details_image_size));
         }
-    };
+    };*/
 
     private void setNumColumns(int numColumns) {
         if (this.numColumns != numColumns) {
@@ -430,7 +559,20 @@ public class StickerPackDetailsActivity extends AddStickerPackActivity {
         }
     }
 
-    private class User {
-        private String ProfileURL;
+    private void consultarListaPersonas() {
+        SQLiteDatabase db=conn.getReadableDatabase();
+
+        Usuario usuario=null;
+        // listaUsuarios=new ArrayList<Usuario>();
+        //select * from usuarios
+        Cursor cursor=db.rawQuery("SELECT * FROM "+ StickerUtilitiesSQLite.TABLA_USUARIO,null);
+
+        while (cursor.moveToNext()){
+            usuario=new Usuario();
+            usuario.setId(cursor.getInt(0));
+            usuario.setNombre(cursor.getString(1));
+            usuario.setImage(cursor.getInt(2));
+            listaUsuario.add(usuario);
+        }
     }
 }

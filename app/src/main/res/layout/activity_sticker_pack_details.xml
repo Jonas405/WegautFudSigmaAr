@@ -20,8 +20,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#1B4079"
+                android:layout_height="330sp"
+                android:background="@drawable/patterbackgroundimage"
                 >
 
                 <ImageView
@@ -111,38 +111,22 @@
 
 
     <Button
-        android:id="@+id/btnStickerCapture"
+        android:id="@+id/btnGoFrontPicture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Go to discovery Sticker"/>
+        android:text="Go To Discover"/>
 
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <com.example.samplestickerapp.BottomFadingRecyclerView
-            android:id="@+id/sticker_list"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/consultarListaRecycler"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clipToPadding="false"
-            android:fadingEdgeLength="@dimen/fading_edge_length"
-            android:paddingStart="@dimen/preview_side_margin"
-            android:paddingLeft="@dimen/preview_side_margin"
-            android:paddingEnd="@dimen/preview_side_margin"
-            android:paddingRight="@dimen/preview_side_margin"
-            android:requiresFadingEdge="vertical" />
-
-        <View
-            android:id="@+id/divider"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:alpha="0.1"
-            android:background="#000000"
-            android:visibility="invisible"
-            tools:visibility="visible" />
-
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" />
     </FrameLayout>
 
 

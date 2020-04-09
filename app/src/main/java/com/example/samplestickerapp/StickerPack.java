@@ -14,6 +14,7 @@ import android.os.Parcelable;
 import java.util.List;
 
 class StickerPack implements Parcelable {
+
     final String identifier;
     final String name;
     final String publisher;

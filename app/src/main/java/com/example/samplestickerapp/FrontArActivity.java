@@ -13,14 +13,17 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.PixelCopy;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
@@ -65,6 +68,18 @@ public class FrontArActivity extends AppCompatActivity {
     private int xDelta;
     private int yDelta;
 
+    //Frame
+    ImageView marcox1;
+    ImageView marcox2;
+    ImageView marcox3;
+    ImageView marcox4;
+    ImageView marcox5;
+    ImageView marcox6;
+    ImageView marcox7;
+    ImageView marcox8;
+    ImageView marcox9;
+    ImageView marcox10;
+
 
 
     @Override
@@ -74,9 +89,9 @@ public class FrontArActivity extends AppCompatActivity {
 
         frameLayout = (View) findViewById(R.id.frontFrameView);
 
-
-
         imageView = findViewById(R.id.image);
+
+        Button backButton = findViewById(R.id.volverButton);
 
         //imageMoving
         imageMovingB = findViewById(R.id.imageMoving);
@@ -84,21 +99,173 @@ public class FrontArActivity extends AppCompatActivity {
         //ButtonPhoto
         buttonPhotoFront = findViewById(R.id.btnShanpshotFront);
         customArFrontFragment = (CustomArFrontFragment) getSupportFragmentManager().findFragmentById(R.id.arFrontFragment);
-        // getIntent() is a method from the started activity
-        Intent myIntent = getIntent(); // gets the previously created intent
+
+
+        //-------------- This is for receiver from the front the intent and then put the image
+
+
+        // getIntent() is a method from the started activity Marco
+        /*Intent myIntent = getIntent(); // gets the previously created intent
         String marco = myIntent.getStringExtra("marco"); // will return "FirstKeyValue"
-
-        Toast.makeText(getBaseContext(),"Marco" + marco,Toast.LENGTH_LONG).show();
-
         Context c = getApplicationContext();
         int id = c.getResources().getIdentifier("drawable/"+marco, null, c.getPackageName());
         ((ImageView)findViewById(R.id.image)).setImageResource(id);
 
 
+        // getIntent() is a method from the started activity Front Image
+
+        String frontImage = myIntent.getStringExtra("frontImage"); // will return "frontImage"
+        Context cFront = getApplicationContext();
+        int cFrontImage = cFront.getResources().getIdentifier("drawable/"+frontImage, null, c.getPackageName());
+        ((ImageView)findViewById(R.id.imageMoving)).setImageResource(cFrontImage);
+
+*/
+
+        LinearLayout gallery = findViewById(R.id.gallery);
+        LayoutInflater inflater = LayoutInflater.from(this);
+
+      /*  for (int i = 0; i < 6; i ++){
+            View view = inflater.inflate(R.layout.item, gallery, false);
+            ImageView imageView = view.findViewById(R.id.imageView);
+            imageView.setImageResource(R.mipmap.ic_launcher);
+            gallery.addView(view);
+        }*/
+
+        View marco1 = inflater.inflate(R.layout.item, gallery, false);
+        marcox1 = marco1.findViewById(R.id.imageView);
+        marcox1.setImageResource(R.drawable.artmarco1);
 
 
+        View marco2 = inflater.inflate(R.layout.item, gallery, false);
+        marcox2 = marco2.findViewById(R.id.imageView);
+        marcox2.setImageResource(R.drawable.artmarco2);
 
-        ModelRenderable
+
+        View marco3 = inflater.inflate(R.layout.item, gallery, false);
+        marcox3 = marco3.findViewById(R.id.imageView);
+        marcox3.setImageResource(R.drawable.artmarco3);
+
+
+        View marco4 = inflater.inflate(R.layout.item, gallery, false);
+        marcox4 = marco4.findViewById(R.id.imageView);
+        marcox4.setImageResource(R.drawable.artmarco4);
+
+        View marco5 = inflater.inflate(R.layout.item, gallery, false);
+        marcox5 = marco5.findViewById(R.id.imageView);
+        marcox5.setImageResource(R.drawable.artmarco5);
+
+        View marco6 = inflater.inflate(R.layout.item, gallery, false);
+        marcox6 = marco6.findViewById(R.id.imageView);
+        marcox6.setImageResource(R.drawable.artmarco6);
+
+        View marco7 = inflater.inflate(R.layout.item, gallery, false);
+        marcox7 = marco7.findViewById(R.id.imageView);
+        marcox7.setImageResource(R.drawable.artmarco7);
+
+        View marco8 = inflater.inflate(R.layout.item, gallery, false);
+        marcox8 = marco8.findViewById(R.id.imageView);
+        marcox8.setImageResource(R.drawable.artmarco8);
+
+        View marco9 = inflater.inflate(R.layout.item, gallery, false);
+        marcox9 = marco9.findViewById(R.id.imageView);
+        marcox9.setImageResource(R.drawable.marco1);
+
+        View marco10 = inflater.inflate(R.layout.item, gallery, false);
+        marcox10 = marco10.findViewById(R.id.imageView);
+        marcox10.setImageResource(R.drawable.marco2);
+
+        gallery.addView(marco1);
+        gallery.addView(marco2);
+        gallery.addView(marco3);
+        gallery.addView(marco4);
+        gallery.addView(marco5);
+        gallery.addView(marco6);
+        gallery.addView(marco7);
+        gallery.addView(marco8);
+        gallery.addView(marco9);
+        gallery.addView(marco10);
+
+      /*  marcox1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(CustomArActivity.this, EntryActivity.class));
+            }
+        });*/
+
+        marcox1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(),"Marco1",Toast.LENGTH_SHORT).show();
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.artmarco1);
+            }
+        });
+        marcox2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(),"Marco2",Toast.LENGTH_SHORT).show();
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.artmarco2);
+            }
+        });
+        marcox3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(),"Marco3",Toast.LENGTH_SHORT).show();
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.artmarco3);
+            }
+        });
+        marcox4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(),"Marco4",Toast.LENGTH_SHORT).show();
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.artmarco4);
+            }
+        });
+        marcox5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(),"Marco4",Toast.LENGTH_SHORT).show();
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.artmarco5);
+            }
+        });
+        marcox6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(),"Marco4",Toast.LENGTH_SHORT).show();
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.artmarco6);
+            }
+        });
+        marcox7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(),"Marco4",Toast.LENGTH_SHORT).show();
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.artmarco7);
+            }
+        });
+        marcox8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(),"Marco4",Toast.LENGTH_SHORT).show();
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.artmarco8);
+            }
+        });
+        marcox9.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(),"Marco4",Toast.LENGTH_SHORT).show();
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.marco1);
+            }
+        });
+        marcox10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getBaseContext(),"Marco4",Toast.LENGTH_SHORT).show();
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.marco2);
+            }
+        });
+
+
+        //Comment augmented facing
+/*        ModelRenderable
                 .builder().setSource(this,R.raw.fox_face)
                 .build()
                 .thenAccept(renderable -> {
@@ -112,8 +279,9 @@ public class FrontArActivity extends AppCompatActivity {
         Texture
                 .builder().setSource(this, R.drawable.fox_face_mesh_texture)
                 .build()
-                .thenAccept(texture -> this.texture = texture);
+                .thenAccept(texture -> this.texture = texture);*/
 
+/*
         customArFrontFragment.getArSceneView().setCameraStreamRenderPriority(Renderable.RENDER_PRIORITY_FIRST);
 
         customArFrontFragment.getArSceneView().getScene().addOnUpdateListener(frameTime -> {
@@ -137,6 +305,30 @@ public class FrontArActivity extends AppCompatActivity {
                 isAdded = true;
             }
         });
+*/
+
+        Runnable mRunnable;
+        Handler mHandler=new Handler();
+
+        mRunnable= new Runnable() {
+
+            @Override
+            public void run() {
+                // TODO Auto-generated method stub
+                //     yourLayoutObject.setVisibility(View.INVISIBLE); //If you want just hide the View. But it will retain space occupied by the View.
+              //This will remove the View. and free s the space occupied by the View
+                buttonPhotoFront.setVisibility(View.VISIBLE);
+                backButton.setVisibility(View.VISIBLE);
+
+            }
+        };
+
+       backButton.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               startActivity(new Intent(FrontArActivity.this, CustomArActivity.class));
+           }
+       });
 
         buttonPhotoFront.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,9 +341,11 @@ public class FrontArActivity extends AppCompatActivity {
                 //     View rootView = getWindow().getDecorView().findViewById(android.R.id.content);
                 //                  Bitmap bitmap = getScreenShot(rootView);
                 //                store(bitmap, "ScreenShot.png");
-
+                backButton.setVisibility(View.GONE);
+                buttonPhotoFront.setVisibility(View.GONE);
                 ScreenshotManager.INSTANCE.requestScreenshotPermission(FrontArActivity.this, REQUEST_ID);
                 ScreenshotManager.INSTANCE.takeScreenshot(FrontArActivity.this);
+                mHandler.postDelayed(mRunnable,10*500);
 
                 Toast.makeText(getBaseContext(),"BUTTON Screen",Toast.LENGTH_SHORT).show();
             }
@@ -190,8 +384,6 @@ public class FrontArActivity extends AppCompatActivity {
 
         ArSceneView view = customArFrontFragment.getArSceneView();
 
-
-
         // Create a bitmap the size of the scene view.
         final Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(),
                 Bitmap.Config.ARGB_8888);
@@ -228,7 +420,6 @@ public class FrontArActivity extends AppCompatActivity {
     public void saveBitmapToDisk(Bitmap bitmap) throws IOException {
 
         // String path = Environment.getExternalStorageDirectory().toString() +  "/Pictures/Screenshots/";
-
         File videoDirectory = null;
         if (videoDirectory == null) {
             videoDirectory =

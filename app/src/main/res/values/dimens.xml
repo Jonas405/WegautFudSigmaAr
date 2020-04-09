@@ -8,4 +8,8 @@
     <dimen name="sticker_pack_list_item_preview_image_size">50dp</dimen>
     <dimen name="sticker_pack_list_item_preview_image_padding">4dp</dimen>
     <dimen name="sticker_pack_list_item_row_dot_horizontal_padding">4dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
+    <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="row_padding_vertical">10dp</dimen>
 </resources>

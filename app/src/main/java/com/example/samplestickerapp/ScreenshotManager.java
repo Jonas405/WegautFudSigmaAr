@@ -6,15 +6,18 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.PixelFormat;
 import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.hardware.display.DisplayManager;
 import android.hardware.display.VirtualDisplay;
 import android.media.Image;
 import android.media.ImageReader;
 import android.media.projection.MediaProjection;
 import android.media.projection.MediaProjectionManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.HandlerThread;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -23,6 +26,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.UiThread;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
@@ -37,7 +41,9 @@ public class ScreenshotManager {
     public static final ScreenshotManager INSTANCE = new ScreenshotManager();
     private Intent mIntent;
 
-    private ScreenshotManager() {
+    Bitmap screenPhotoTaked;
+
+    ScreenshotManager() {
     }
 
     public void requestScreenshotPermission(@NonNull Activity activity, int requestId) {
@@ -88,6 +94,30 @@ public class ScreenshotManager {
                                 bitmap = Bitmap.createBitmap(width + rowPadding / pixelStride, height, Bitmap.Config.ARGB_8888);
                                 bitmap.copyPixelsFromBuffer(buffer);
                                 saveBitmapToDisk(bitmap);
+
+                         /*       File file = new File(context.getCacheDir(), "bob.png");
+                                FileOutputStream fOut = new FileOutputStream(file);
+                                bitmap.compress(Bitmap.CompressFormat.PNG, 80, fOut);
+                                fOut.flush();
+                                fOut.close();
+                                file.setReadable(true,false);*/
+                                //Sharing intent
+
+                                String path = MediaStore.Images.Media.insertImage(context.getContentResolver(),
+                                        bitmap, "Design", null);
+
+                                Uri uri = Uri.parse(path);
+
+                                Intent intent = new Intent(Intent.ACTION_SEND);
+                                intent.setType("image/*");
+                                intent.putExtra(Intent.EXTRA_STREAM, uri);
+                                intent.putExtra(Intent.EXTRA_TEXT, "I found something cool!");
+                                context.startActivity(Intent.createChooser(intent, "Share Your Design!"));
+
+                           //     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                     //           intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+                           //     intent.setType("image/*");
+                          //      context.startActivity(Intent.createChooser(intent, "Share"));
                                 return bitmap;
                             }
                         } catch (Exception e) {
@@ -138,13 +168,42 @@ public class ScreenshotManager {
         Calendar c = Calendar.getInstance();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss");
         String formattedDate = df.format(c.getTime());
-
         File mediaFile = new File(videoDirectory, "FieldVisualizer"+formattedDate+".jpeg");
         FileOutputStream fileOutputStream = new FileOutputStream(mediaFile);
         bitmap.compress(Bitmap.CompressFormat.JPEG, 70, fileOutputStream);
         fileOutputStream.flush();
         fileOutputStream.close();
+
+     //   screenPhotoTaked = bitmap;
+
+      /*  File file = new File(context.getExternalCacheDir(), "images");
+        mediaFile.setReadable(true,false);
+        //Sharing intent
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+        intent.setType("image/*");
+        context.startActivity(Intent.createChooser(intent, "Share"));
+*/
+
     }
+
+    /*public void shareToSocialMedia(Context context) throws IOException {
+
+
+        File file = new File(context.getCacheDir(), "bob.png");
+        FileOutputStream fOut = new FileOutputStream(file);
+        bitmap.compress(Bitmap.CompressFormat.PNG, 80, fOut);
+        fOut.flush();
+        fOut.close();
+        file.setReadable(true,false);
+        //Sharing intent
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+        intent.setType("image/*");
+        context.startActivity(Intent.createChooser(intent, "Share"));
+    }*/
 
 
 }

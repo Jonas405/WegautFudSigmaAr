@@ -32,17 +32,12 @@
             />
     </fragment>
 
-
-
-
     <RelativeLayout
         android:id="@+id/menuBar"
         android:layout_width="match_parent"
         android:layout_height="82sp"
         android:layout_gravity="bottom"
         >
-
-
         <LinearLayout
             android:id="@+id/layout1"
             android:layout_width="match_parent"
@@ -81,16 +76,16 @@
                 android:clickable="true"
                 android:layout_marginHorizontal="40sp"
                 android:src="@drawable/iconprofile"/>
-
-
-
         </LinearLayout>
-
-
-
     </RelativeLayout>
 
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/frontTest"
+        android:text="gOFrONT"
+        />
 
     <ImageView
         android:clickable="true"
@@ -102,14 +97,6 @@
         android:layout_gravity="center_horizontal"
         />
 
-    <ImageView
-        android:clickable="true"
-        android:id="@+id/btnShanpshotFront"
-        android:layout_width="100sp"
-        android:layout_height="70sp"
-        android:src="@drawable/iconshoot"
-        android:layout_marginTop="575sp"
-        />
 
     <ImageView
         android:id="@+id/imageViewPreview"
@@ -118,9 +105,6 @@
         android:layout_marginTop="30dp"
         android:scaleType="fitCenter"
         />
-
-
-
 
 
 

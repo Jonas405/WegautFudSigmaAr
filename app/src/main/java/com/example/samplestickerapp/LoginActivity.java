@@ -92,18 +92,15 @@ public class LoginActivity extends AppCompatActivity {
     /*
     LoginButton FacebookBtn;
 */
-
     //Declare an instance of FirebaseAuth
     FirebaseAuth mAuth;
     private FirebaseAuth firebaseAuth;
     private FirebaseAuth.AuthStateListener firebaseAuthListener;
     //progress dialog
     ProgressDialog pd;
-
 /*
     CallbackManager callbackManager;
 */
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
         actionBar.setDisplayShowHomeEnabled(true);*/
 
         //Permissions
-        //==================================Internal Storage Getting Info ==================================//
+        //==================================Internal Storage Getting Info==================================//
         int Permission_All = 1;
 
         String[] permissions = {Manifest.permission.WRITE_EXTERNAL_STORAGE,Manifest.permission.READ_EXTERNAL_STORAGE};
@@ -142,8 +139,6 @@ public class LoginActivity extends AppCompatActivity {
 /*
         FacebookSdk.sdkInitialize(getApplicationContext());
 */
-
-
         //init
         mEmailEt = findViewById(R.id.emailEt);
         mPasswordEt = findViewById(R.id.passwordEt);
@@ -168,16 +163,10 @@ public class LoginActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(), "LOGEADO WITH FACEBOOK", Toast.LENGTH_LONG).show();
 
-                Intent myIntent = new Intent(LoginActivity.this, CustomArActivity.class);
+                Intent myIntent = new Intent(LoginActivity.this, EntryActivity.class);
             //    myIntent.putExtra("marco","marco5");
                 startActivity(myIntent);
-
-
-
                 startActivity(new Intent(LoginActivity.this, EntryActivity.class));
-
-
-
 
 
                 accessTokenTracker = new AccessTokenTracker() {
@@ -224,7 +213,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         };
-
 
 /*
         callbackManager = CallbackManager.Factory.create();
@@ -284,7 +272,6 @@ public class LoginActivity extends AppCompatActivity {
             }
         });*/
 
-
         RecoverAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -308,7 +295,6 @@ public class LoginActivity extends AppCompatActivity {
                     //valid email pattern
                     loginUser(email, passw);
                 }
-
             }
         });
         //not have account text view click
@@ -336,7 +322,6 @@ public class LoginActivity extends AppCompatActivity {
 
     private void handleFacebookAccessToken(AccessToken accessToken) {
 
-
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
@@ -348,50 +333,6 @@ public class LoginActivity extends AppCompatActivity {
         });
     }
 
-    public class CrunchifyJSONFileWrite {
-        private FileWriter file;
-
-        @SuppressWarnings("unchecked")
-        public  void main(String[] args) {
-
-            // JSON object. Key value pairs are unordered. JSONObject supports java.util.Map interface.
-            JSONObject obj = new JSONObject();
-            obj.put("Name", "Crunchify.com");
-            obj.put("Author", "App Shah");
-
-            JSONArray company = new JSONArray();
-            company.add("Company: Facebook");
-            company.add("Company: PayPal");
-            company.add("Company: Google");
-            obj.put("Company List", company);
-            try {
-
-                // Constructs a FileWriter given a file name, using the platform's default charset
-                file = new FileWriter("/Users/Shared/crunchify.txt");
-                file.write(obj.toJSONString());
-                CrunchifyLog("Successfully Copied JSON Object to File...");
-                CrunchifyLog("\nJSON Object: " + obj);
-
-            } catch (IOException e) {
-                e.printStackTrace();
-
-            } finally {
-
-                try {
-                    file.flush();
-                    file.close();
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        public void CrunchifyLog(String str) {
-            System.out.println("str");
-        }
-
-    }
 
     private void showRecoverPasswordDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -460,7 +401,6 @@ public class LoginActivity extends AppCompatActivity {
     private void loginUser(String email, String passw) {
         //show
         pd.show();
-
 
 /*
         firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION);
