@@ -27,8 +27,8 @@ public class ListaPersonasAdapter extends RecyclerView.Adapter<ListaPersonasAdap
 
     @Override
     public void onBindViewHolder(PersonasViewHolder holder, int position) {
-        holder.documento.setText(listaUsuario.get(position).getId().toString());
-        holder.nombre.setText(listaUsuario.get(position).getNombre());
+     //   holder.documento.setText(listaUsuario.get(position).getId().toString());
+     //   holder.nombre.setText(listaUsuario.get(position).getNombre());
         holder.foto.setImageResource(listaUsuario.get(position).getImage());
     }
 
@@ -44,8 +44,8 @@ public class ListaPersonasAdapter extends RecyclerView.Adapter<ListaPersonasAdap
 
         public PersonasViewHolder(View itemView) {
             super(itemView);
-            documento = (TextView) itemView.findViewById(R.id.textDocumento);
-            nombre = (TextView) itemView.findViewById(R.id.textNombre);
+     //       documento = (TextView) itemView.findViewById(R.id.textDocumento);
+     //       nombre = (TextView) itemView.findViewById(R.id.textNombre);
             foto = (ImageView) itemView.findViewById(R.id.imgStickerColectado);
         }
     }

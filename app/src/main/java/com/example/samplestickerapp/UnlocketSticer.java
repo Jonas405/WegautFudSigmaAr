@@ -163,6 +163,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
 
     private void saveStickerIntoSQLiteesponja2finalfinal() {
@@ -177,6 +179,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
     private void saveStickerIntoSQLiteesponja3finalfinal() {
 
@@ -190,6 +194,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
     private void saveStickerIntoSQLiteesponja4finalfinal() {
 
@@ -203,6 +209,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
     private void saveStickerIntoSQLitesponja5finalfinal() {
 
@@ -216,6 +224,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
     private void saveStickerIntoSQLitecangrejo1finalfinal() {
 
@@ -229,6 +239,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
     private void saveStickerIntoSQLitearenita1finalfinal() {
 
@@ -242,6 +254,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
     private void  saveStickerIntoSQLitearenita2finalfinal() {
 
@@ -255,6 +269,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
     private void saveStickerIntoSQLitearenita3finalfinal() {
 
@@ -268,6 +284,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
     private void saveStickerIntoSQLitebobteam1finalfinal() {
 
@@ -281,6 +299,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
     private void saveStickerIntoSQLitebobteam2finalfinal() {
 
@@ -294,6 +314,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
     private void saveStickerIntoSQLitecalamardo2finalfinal() {
 
@@ -307,6 +329,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
     private void saveStickerIntoSQLitecalamardo3finalfinal() {
 
@@ -320,6 +344,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
     private void saveStickerIntoSQLitemedusas1finalfinall() {
 
@@ -333,6 +359,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
     private void  saveStickerIntoSQLiterobot1finalfinal() {
 
@@ -346,6 +374,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
     private void saveStickerIntoSQLitegary1finalfinal() {
 
@@ -359,6 +389,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
     private void  saveStickerIntoSQLiteteamboat1finalfinal() {
 
@@ -372,6 +404,8 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
     private void saveStickerIntoSQLiteteambot2finalfinal() {
 
@@ -385,7 +419,7 @@ public class UnlocketSticer extends AppCompatActivity {
         Long idResultante=db.insert(StickerUtilitiesSQLite.TABLA_USUARIO,StickerUtilitiesSQLite.CAMPO_ID,values);
         Toast.makeText(getApplicationContext(),"Id Registro: "+idResultante + "Texto" + marco,Toast.LENGTH_SHORT).show();
         db.close();
+
+        startActivity(new Intent(UnlocketSticer.this, EntryActivity.class));
     }
-
-
 }

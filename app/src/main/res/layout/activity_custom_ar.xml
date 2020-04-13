@@ -55,7 +55,7 @@
                 android:src="@drawable/iconinfo"
                 android:clickable="true"/>
 
-            <ImageView
+    <!--        <ImageView
                 android:id="@+id/PhotoBtnGallery"
                 android:layout_width="50sp"
                 android:layout_height="40sp"
@@ -64,7 +64,7 @@
                 android:layout_weight="1"
                 android:clickable="true"
                 android:src="@drawable/iconphoto">
-            </ImageView>
+            </ImageView>-->
 
 
             <ImageView
@@ -80,12 +80,12 @@
     </RelativeLayout>
 
 
-    <Button
+ <!--   <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/frontTest"
         android:text="gOFrONT"
-        />
+        />-->
 
     <ImageView
         android:clickable="true"

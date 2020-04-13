@@ -82,7 +82,7 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
     ImageView ProfileBtn;
     ImageView GalleryBtn;
 
-    Button buttonFrontTest;
+  //  Button buttonFrontTest;
 
 
 
@@ -129,20 +129,20 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         buttonPhoto = findViewById(R.id.btnShanpshot);
         InfoBtn = findViewById(R.id.infoBtn);
         ProfileBtn = findViewById(R.id.ProfileBtn);
-        GalleryBtn = findViewById(R.id.PhotoBtnGallery);
+    //    GalleryBtn = findViewById(R.id.PhotoBtnGallery);
         //menuBar
         menuBar = findViewById(R.id.menuBar);
         //FrontButton
-        buttonFrontTest = findViewById(R.id.frontTest);
+       // buttonFrontTest = findViewById(R.id.frontTest);
 
         ConexionSQLiteHelper conn=new ConexionSQLiteHelper(this,"bd_usuarios",null,1);
 
-        buttonFrontTest.setOnClickListener(new View.OnClickListener() {
+ /*       buttonFrontTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(CustomArActivity.this, FrontArActivity.class));
             }
-        });
+        });*/
 
 
         InfoBtn.setOnClickListener(new View.OnClickListener() {
@@ -197,7 +197,7 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
             }
         });
 
-
+/*
         GalleryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -207,21 +207,12 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE);
 
             }
-        });
+        });*/
     }
 
     public void setupDatabase(Config config, Session session){
         //dba config and created
         //Get resource from drawable path
-        Bitmap bobsponaJrBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.bobsponjajr);
-        Bitmap calamardoJrBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.calamardojr);
-        Bitmap patricioJrBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.patriciojr);
-        Bitmap donconcangrejoJrBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.doncangrejojr);
-
-
-
-
-
         //setup database with final images
         //esponjas
         Bitmap esponja1finalfinalBitmap = BitmapFactory.decodeResource(getResources(),R.drawable.esponja1finalfinal);
@@ -536,7 +527,6 @@ public class CustomArActivity extends AppCompatActivity implements Scene.OnUpdat
         node.setRenderable(renderable);
         node.setParent(anchorNode);
         node.setParent(anchorNode);
-
         fragment.getArSceneView().getScene().addChild(anchorNode);
 
     }

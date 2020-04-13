@@ -9,7 +9,7 @@
         android:orientation="vertical"
         android:id="@+id/linearLayout"
         android:layout_marginBottom="10dp">
-
+<!--
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -28,8 +28,8 @@
                 android:text="1094899"
                 android:layout_marginLeft="10dp"/>
 
-        </LinearLayout>
-
+        </LinearLayout>-->
+<!--
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
                 android:text="Cristian David Henao"
                 android:layout_marginLeft="10dp"/>
 
-        </LinearLayout>
+        </LinearLayout>-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,12 +65,12 @@
 
         </LinearLayout>
 
-        <TextView
+    <!--    <TextView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/colorPrimary"
-            android:layout_below="@+id/idImagen"
-            android:layout_marginTop="11dp" />
+            android:layout_below="@+id/imgStickerColectado"
+            android:layout_marginTop="11dp" />-->
 
     </LinearLayout>
 

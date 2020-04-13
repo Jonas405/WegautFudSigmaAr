@@ -53,7 +53,7 @@ public class FrontArActivity extends AppCompatActivity {
     private boolean isAdded = false;
 
     private ImageView img;
-    ImageView buttonPhotoFront, imageMovingB;
+    ImageView buttonPhotoFront;
 
     View frameLayout;
 
@@ -77,8 +77,6 @@ public class FrontArActivity extends AppCompatActivity {
     ImageView marcox6;
     ImageView marcox7;
     ImageView marcox8;
-    ImageView marcox9;
-    ImageView marcox10;
 
 
 
@@ -94,8 +92,6 @@ public class FrontArActivity extends AppCompatActivity {
         Button backButton = findViewById(R.id.volverButton);
 
         //imageMoving
-        imageMovingB = findViewById(R.id.imageMoving);
-        imageMovingB.setOnTouchListener(onTouchListener());
         //ButtonPhoto
         buttonPhotoFront = findViewById(R.id.btnShanpshotFront);
         customArFrontFragment = (CustomArFrontFragment) getSupportFragmentManager().findFragmentById(R.id.arFrontFragment);
@@ -133,46 +129,39 @@ public class FrontArActivity extends AppCompatActivity {
 
         View marco1 = inflater.inflate(R.layout.item, gallery, false);
         marcox1 = marco1.findViewById(R.id.imageView);
-        marcox1.setImageResource(R.drawable.artmarco1);
+        marcox1.setImageResource(R.drawable.macrco1finalfinal);
 
 
         View marco2 = inflater.inflate(R.layout.item, gallery, false);
         marcox2 = marco2.findViewById(R.id.imageView);
-        marcox2.setImageResource(R.drawable.artmarco2);
+        marcox2.setImageResource(R.drawable.marco2finalfinal);
 
 
         View marco3 = inflater.inflate(R.layout.item, gallery, false);
         marcox3 = marco3.findViewById(R.id.imageView);
-        marcox3.setImageResource(R.drawable.artmarco3);
+        marcox3.setImageResource(R.drawable.marco3finalfinal);
 
 
         View marco4 = inflater.inflate(R.layout.item, gallery, false);
         marcox4 = marco4.findViewById(R.id.imageView);
-        marcox4.setImageResource(R.drawable.artmarco4);
+        marcox4.setImageResource(R.drawable.marco4finalfinal);
 
         View marco5 = inflater.inflate(R.layout.item, gallery, false);
         marcox5 = marco5.findViewById(R.id.imageView);
-        marcox5.setImageResource(R.drawable.artmarco5);
+        marcox5.setImageResource(R.drawable.marco5finalfinal);
 
         View marco6 = inflater.inflate(R.layout.item, gallery, false);
         marcox6 = marco6.findViewById(R.id.imageView);
-        marcox6.setImageResource(R.drawable.artmarco6);
+        marcox6.setImageResource(R.drawable.marco6finalfinal);
 
         View marco7 = inflater.inflate(R.layout.item, gallery, false);
         marcox7 = marco7.findViewById(R.id.imageView);
-        marcox7.setImageResource(R.drawable.artmarco7);
+        marcox7.setImageResource(R.drawable.marco7finalfinal);
 
         View marco8 = inflater.inflate(R.layout.item, gallery, false);
         marcox8 = marco8.findViewById(R.id.imageView);
-        marcox8.setImageResource(R.drawable.artmarco8);
+        marcox8.setImageResource(R.drawable.marco8finalfinal);
 
-        View marco9 = inflater.inflate(R.layout.item, gallery, false);
-        marcox9 = marco9.findViewById(R.id.imageView);
-        marcox9.setImageResource(R.drawable.marco1);
-
-        View marco10 = inflater.inflate(R.layout.item, gallery, false);
-        marcox10 = marco10.findViewById(R.id.imageView);
-        marcox10.setImageResource(R.drawable.marco2);
 
         gallery.addView(marco1);
         gallery.addView(marco2);
@@ -182,8 +171,6 @@ public class FrontArActivity extends AppCompatActivity {
         gallery.addView(marco6);
         gallery.addView(marco7);
         gallery.addView(marco8);
-        gallery.addView(marco9);
-        gallery.addView(marco10);
 
       /*  marcox1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -196,74 +183,59 @@ public class FrontArActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getBaseContext(),"Marco1",Toast.LENGTH_SHORT).show();
-                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.artmarco1);
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.macrco1finalfinal);
             }
         });
         marcox2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getBaseContext(),"Marco2",Toast.LENGTH_SHORT).show();
-                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.artmarco2);
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.marco2finalfinal);
             }
         });
         marcox3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getBaseContext(),"Marco3",Toast.LENGTH_SHORT).show();
-                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.artmarco3);
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.marco3finalfinal);
             }
         });
         marcox4.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getBaseContext(),"Marco4",Toast.LENGTH_SHORT).show();
-                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.artmarco4);
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.marco4finalfinal);
             }
         });
         marcox5.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getBaseContext(),"Marco4",Toast.LENGTH_SHORT).show();
-                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.artmarco5);
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.marco5finalfinal);
             }
         });
         marcox6.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getBaseContext(),"Marco4",Toast.LENGTH_SHORT).show();
-                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.artmarco6);
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.marco6finalfinal);
             }
         });
         marcox7.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getBaseContext(),"Marco4",Toast.LENGTH_SHORT).show();
-                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.artmarco7);
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.marco7finalfinal);
             }
         });
         marcox8.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(getBaseContext(),"Marco4",Toast.LENGTH_SHORT).show();
-                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.artmarco8);
+                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.marco8finalfinal);
             }
         });
-        marcox9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getBaseContext(),"Marco4",Toast.LENGTH_SHORT).show();
-                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.marco1);
-            }
-        });
-        marcox10.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getBaseContext(),"Marco4",Toast.LENGTH_SHORT).show();
-                ((ImageView)findViewById(R.id.image)).setImageResource(R.drawable.marco2);
-            }
-        });
-
-
+        
         //Comment augmented facing
 /*        ModelRenderable
                 .builder().setSource(this,R.raw.fox_face)
@@ -319,7 +291,6 @@ public class FrontArActivity extends AppCompatActivity {
               //This will remove the View. and free s the space occupied by the View
                 buttonPhotoFront.setVisibility(View.VISIBLE);
                 backButton.setVisibility(View.VISIBLE);
-
             }
         };
 
@@ -476,48 +447,6 @@ public class FrontArActivity extends AppCompatActivity {
             ScreenshotManager.INSTANCE.onActivityResult(resultCode, data);
     }
 
-
-    private View.OnTouchListener onTouchListener() {
-        return new View.OnTouchListener() {
-
-            @SuppressLint("ClickableViewAccessibility")
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-
-                final int x = (int) event.getRawX();
-                final int y = (int) event.getRawY();
-
-                switch (event.getAction() & MotionEvent.ACTION_MASK) {
-
-                    case MotionEvent.ACTION_DOWN:
-                        FrameLayout.LayoutParams lParams = (FrameLayout.LayoutParams) view.getLayoutParams();
-
-                        xDelta = x - lParams.leftMargin;
-                        yDelta = y - lParams.topMargin;
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        Toast.makeText(FrontArActivity.this,
-                                "I'm here!", Toast.LENGTH_SHORT)
-                                .show();
-                        break;
-
-                    case MotionEvent.ACTION_MOVE:
-                        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) view
-                                .getLayoutParams();
-                        layoutParams.leftMargin = x - xDelta;
-                        layoutParams.topMargin = y - yDelta;
-                        layoutParams.rightMargin = 0;
-                        layoutParams.bottomMargin = 0;
-                        view.setLayoutParams(layoutParams);
-                        break;
-                }
-
-                frameLayout.invalidate();
-                return true;
-            }
-        };
-    }
 
 
 }

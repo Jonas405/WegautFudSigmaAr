@@ -8,12 +8,13 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/colorPrimaryDark">
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:src="@drawable/funsnaxlogosplash"
+            android:src="@drawable/fudlogosplashfinalfinal"
             android:layout_centerVertical="true"
             />
 
